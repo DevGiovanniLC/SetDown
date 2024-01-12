@@ -225,19 +225,15 @@
 		</Style>
 	</Window.Resources>
 
-	<Border Background="black" CornerRadius="20" Margin="10,10,0,0" BorderThickness="1">
-		<Grid>
+    <Border  Background="black" CornerRadius="20" Margin="10,10,0,0" BorderThickness="1">
+        <Grid Name="MainPage">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 
-			<!-- CounterDisplay -->
-			<Rectangle Name="BorderCounter" Fill="#1A1A1A"  Grid.Column="1" HorizontalAlignment="Center" Height="75" Width="75" Margin="225, 65, 0, 0" VerticalAlignment="Top"  Visibility="Hidden" />
-			<Label Grid.Column="1" Content="00:00:00" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,65,0,0" VerticalAlignment="Top" FontSize="64"  Name="graphCounter" Foreground="AliceBlue" FontFamily="Courier new" FontWeight="UltraBold" />
-
+            
 			<!-- Titlebar -->
-
 			<Rectangle Height="50" Grid.ColumnSpan="2" VerticalAlignment="Top" MouseDown="DragWindow" Fill="black" RadiusX="20" RadiusY="20" Cursor="Hand" HorizontalAlignment="Center" Width="538" />
 
 			<Button Style="{DynamicResource ButtonExit}" Grid.Column="1" Content="✖" HorizontalAlignment="Right" Height="41" Margin="0,0,0,0" VerticalAlignment="Top" Width="45"  Foreground="AliceBlue" BorderBrush="Transparent" FontSize="18" Click="CloseApplication" Cursor="Hand">
@@ -253,6 +249,13 @@
 			<Button Style="{DynamicResource ButtonMinimize}" Grid.Column="1" HorizontalAlignment="Right" Height="41" Margin="0,0,93,0" VerticalAlignment="Top" Width="45" Foreground="AliceBlue" BorderBrush="Transparent" Click="SetConfig" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Cursor="Hand">
 				<TextBlock FontSize="16" FontWeight="UltraLight" Margin="0,10,0,0">🔧</TextBlock>
 			</Button>
+            
+           
+			<!-- CounterDisplay -->
+			<Rectangle Name="BorderCounter" Fill="#1A1A1A"  Grid.Column="1" HorizontalAlignment="Center" Height="75" Width="75" Margin="225, 65, 0, 0" VerticalAlignment="Top"  Visibility="Hidden" />
+			<Label Grid.Column="1" Content="00:00:00" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,65,0,0" VerticalAlignment="Top" FontSize="64"  Name="graphCounter" Foreground="AliceBlue" FontFamily="Courier new" FontWeight="UltraBold" />
+
+            
 			<!-- Buttons -->
 			<Button Style="{DynamicResource ButtonStyleRounded}" Click="CancelTimeout" Grid.Column="1" Content="Cancel" Height="70" Width="120" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,60" FontSize="20" Foreground="AliceBlue" Cursor="Hand" FontWeight="SemiBold">
 				<Button.Resources>
@@ -270,6 +273,7 @@
 				</Button.Resources>
 			</Button>
 
+            
 			<!-- Radiobuttons -->
 			<RadioButton Style="{DynamicResource RadioStyle}" Name="RadioButton0" Height="50" Width="200" Margin="60,80,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Checked="SetTimer" VerticalContentAlignment="Center">
 				<TextBlock Text="03:00:00" FontFamily="Courier New" Foreground="AliceBlue" FontSize="30" FontWeight="DemiBold" Margin="12,0,0,-3" />
@@ -290,10 +294,12 @@
 				<TextBlock Text="00:30:00" FontFamily="Courier New" Foreground="AliceBlue" FontSize="30" FontWeight="DemiBold" Margin="12,0,0,-3" />
 			</RadioButton>
 
+            
 			<!-- Images -->
             <Image Name="clock" Source="resourses\icon.png" Grid.Column="1" Margin="45,80,45,100" Focusable="False"  HorizontalAlignment="Center" VerticalAlignment="Center" />
             <Image Name="owl" Source="resourses\icon2.png" Grid.Column="1" Margin="45,100,45,115" Focusable="False"  HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" />
 
+            
 			<!-- Control Buttons -->
 			<Button Name="Right" Style="{DynamicResource ControlButtonStyle}" Grid.Column="1" HorizontalAlignment="Left" Height="50" Width="22" Margin="35,0,0,70" VerticalAlignment="Bottom"  Click="ControlButton_Checked">
 				<TextBlock FontSize="18" Margin="2,-2,0,0">▶</TextBlock>

@@ -93,6 +93,7 @@ namespace SetDown
 
         private void SetConfig(object sender, RoutedEventArgs e)
         {
+            MainPage.Visibility = Visibility.Hidden;
             Process updating = Process.Start("notepad.exe", "timeouts.conf");
             updating.EnableRaisingEvents = true;
             updating.Exited += new EventHandler(UpdateTimeouts);
@@ -259,17 +260,17 @@ namespace SetDown
         {
             switch (DisplaySelected)
             {
-                case 0:
+                case 0: //right
                     DisplayCount = 1;
                     BorderCounter.Margin = new Thickness(225, 65, 0, 0);
                     break;
 
-                case 1:
+                case 1: //mid
                     DisplayCount = 60;
                     BorderCounter.Margin = new Thickness(-5, 65, 0, 0);
                     break;
 
-                case 2:
+                case 2: //left
                     DisplayCount = 3600;
                     BorderCounter.Margin = new Thickness(-235, 65, 0, 0);
                     break;
