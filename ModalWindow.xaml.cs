@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Windows;
 
-
 namespace SetDown
 {
     public partial class ModalWindow : Window
     {
-
         public ModalWindow()
         {
             InitializeComponent();

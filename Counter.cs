@@ -27,9 +27,8 @@ namespace SetDown
             this.count = count;
         }
 
-       override
-       public string ToString()
-       {
+        public override string ToString()
+        {
             hours = count / 3600;
 
             minutes = count / 60 - hours * 60;
@@ -37,9 +36,8 @@ namespace SetDown
             seconds = count % 3600 - minutes * 60;
 
             return string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
-       }
+        }
     }
-
 
     public class ComplexCounter : Counter
     {
@@ -87,6 +85,5 @@ namespace SetDown
 
             Application.Current.Dispatcher.Invoke(() => AlertWindow.Hide());
         }
-
     }
 }

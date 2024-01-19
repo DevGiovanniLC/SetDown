@@ -13,14 +13,13 @@
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border Background="Transparent">
-                        <Image Source="resourses\alertIcon.png"/>
+                        <Image Source="resourses\alertIcon.png" />
                     </Border>
                 </ControlTemplate>
             </Button.Template>
             <Button.Background>
-                <SolidColorBrush Color="Transparent"/>
+                <SolidColorBrush Color="Transparent" />
             </Button.Background>
         </Button>
-
     </Grid>
 </Window>
