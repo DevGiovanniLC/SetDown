@@ -59,7 +59,7 @@ namespace SetDown
 
         private static int GetTimeout(StreamReader file)
         {
-            String? line = file.ReadLine();
+            string? line = file.ReadLine();
 
             if (line == null) return 0;
 
@@ -69,8 +69,11 @@ namespace SetDown
         private void ConfigureRadioButton(string radiobuttonName, int timeout)
         {
             Counter count = new(timeout);
+            
             RadioButton radiobutton = System.Windows.Application.Current.Dispatcher.Invoke(() => (RadioButton)this.FindName(radiobuttonName));
+           
             TextBlock textblock = System.Windows.Application.Current.Dispatcher.Invoke(() => (TextBlock)radiobutton.Content);
+            
             System.Windows.Application.Current.Dispatcher.Invoke(() => textblock.Text = count.ToString());
         }
 
@@ -93,29 +96,30 @@ namespace SetDown
 
         private void SetConfig(object sender, RoutedEventArgs e)
         {
-            MainPage.Visibility = Visibility.Hidden;
             Process updating = Process.Start("notepad.exe", "timeouts.conf");
+            
             updating.EnableRaisingEvents = true;
+            
             updating.Exited += new EventHandler(UpdateTimeouts);
         }
 
-        public void ThreadCounter()
+        private void ThreadCounter()
         {
             try
             {
                 while (true)
                 {
                     Thread.Sleep(999);
-                    UpdateCounter(Counter.Next());
+                    UpdateTimerCounter(Counter.Next());
                 }
             }
             catch (ThreadInterruptedException) { }
         }
 
-        private void UpdateCounter(String count)
+        private void UpdateTimerCounter(string count)
         {
             if (graphCounter.Dispatcher.CheckAccess()) graphCounter.Content = count;
-            else graphCounter.Dispatcher.BeginInvoke(new Action<String>(UpdateCounter), count);
+            else graphCounter.Dispatcher.BeginInvoke(new Action<string>(UpdateTimerCounter), count);
         }
 
         private void InterruptCounter()
@@ -132,7 +136,7 @@ namespace SetDown
         {
             InterruptCounter();
 
-            UpdateCounter(Counter.ToString());
+            UpdateTimerCounter(Counter.ToString());
 
             countSelected = 0;
 
@@ -160,47 +164,24 @@ namespace SetDown
 
         private void SetTimer(object sender, RoutedEventArgs e)
         {
-            if (sender is not System.Windows.Controls.RadioButton radioButton) return;
-
-            switch (radioButton.Name)
-            {
-                case "RadioButton0":
-                    countSelected = TimeoutList[0];
-                    break;
-
-                case "RadioButton1":
-                    countSelected = TimeoutList[1];
-                    break;
-
-                case "RadioButton2":
-                    countSelected = TimeoutList[2];
-                    break;
-
-                case "RadioButton3":
-                    countSelected = TimeoutList[3];
-                    break;
-
-                case "RadioButton4":
-                    countSelected = TimeoutList[4];
-                    break;
-
-                case "RadioButton5":
-                    countSelected = TimeoutList[5];
-                    break;
-            }
-
             if (CountDown.IsAlive) return;
+            
+            if (sender is not System.Windows.Controls.RadioButton radioButton) return;
+            
+            int index = int.Parse(radioButton.Name[^1..]);
+            
+            countSelected = TimeoutList[index];
 
             Counter.SetCounter(countSelected);
 
-            UpdateCounter(Counter.ToString());
+            UpdateTimerCounter(Counter.ToString());
         }
 
         private void Check_Modal(object? sender, EventArgs e)
         {
             InterruptCounter();
 
-            UpdateCounter(Counter.ToString());
+            UpdateTimerCounter(Counter.ToString());
 
             this.Focus();
         }
@@ -225,8 +206,11 @@ namespace SetDown
             if (BorderCounter.Visibility == Visibility.Hidden)
             {
                 DisplaySelected = 0;
-                UpdateDisplay();
+                
+                UpdateTimerDisplay();
+                
                 BorderCounter.Visibility = Visibility.Visible;
+                
                 return;
             }
 
@@ -235,28 +219,28 @@ namespace SetDown
                 case "Up":
                     countSelected += DisplayCount;
                     Counter.SetCounter(countSelected);
-                    UpdateCounter(Counter.ToString());
+                    UpdateTimerCounter(Counter.ToString());
                     break;
                 case "Down":
                     if (countSelected <= 0) return;
                     countSelected -= DisplayCount;
                     Counter.SetCounter(countSelected);
-                    UpdateCounter(Counter.ToString());
+                    UpdateTimerCounter(Counter.ToString());
                     break;
                 case "Left":
                     DisplaySelected++;
                     DisplaySelected = DisplaySelected % 3;
-                    UpdateDisplay();
+                    UpdateTimerDisplay();
                     break;
                 case "Right":
                     DisplaySelected--;
                     if (DisplaySelected == -1) DisplaySelected = 2;
-                    UpdateDisplay();
+                    UpdateTimerDisplay();
                     break;
             }
         }
 
-        private void UpdateDisplay()
+        private void UpdateTimerDisplay()
         {
             switch (DisplaySelected)
             {
