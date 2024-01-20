@@ -68,21 +68,21 @@ namespace SetDown
         {
             Counter count = new(timeout);
 
-            RadioButton radiobutton = System.Windows.Application.Current.Dispatcher.Invoke(() => (RadioButton)this.FindName(radiobuttonName));
+            RadioButton radiobutton = Application.Current.Dispatcher.Invoke(() => (RadioButton)FindName(radiobuttonName));
 
-            TextBlock textblock = System.Windows.Application.Current.Dispatcher.Invoke(() => (TextBlock)radiobutton.Content);
+            TextBlock textblock = Application.Current.Dispatcher.Invoke(() => (TextBlock)radiobutton.Content);
 
-            System.Windows.Application.Current.Dispatcher.Invoke(() => textblock.Text = count.ToString());
+            Application.Current.Dispatcher.Invoke(() => textblock.Text = count.ToString());
         }
 
         private void DragWindow(object sender, MouseButtonEventArgs e)
         {
-            if (System.Windows.Application.Current.Dispatcher.Invoke(() => e.ChangedButton == MouseButton.Left)) this.DragMove();
+            if (Application.Current.Dispatcher.Invoke(() => e.ChangedButton == MouseButton.Left)) DragMove();
         }
 
         private void CloseApplication(object sender, RoutedEventArgs e)
         {
-            System.Windows.Application.Current.Shutdown();
+            Application.Current.Shutdown();
         }
 
         private void MinimizeWindow(object sender, RoutedEventArgs e)
@@ -124,11 +124,11 @@ namespace SetDown
             catch (Exception) { }
 
             Counter.Cancel();
-            Privilege(() => this.owl.Visibility = Visibility.Hidden);
-            Privilege(() => this.clock.Visibility = Visibility.Visible);
+            Privilege(() => owl.Visibility = Visibility.Hidden);
+            Privilege(() => clock.Visibility = Visibility.Visible);
         }
 
-        private void CancelTimeout(Object sender, RoutedEventArgs e)
+        private void CancelTimeout(object sender, RoutedEventArgs e)
         {
             InterruptCounter();
 
@@ -141,7 +141,7 @@ namespace SetDown
             BorderCounter.Visibility = Visibility.Hidden;
         }
 
-        private void AcceptTimeout(Object sender, RoutedEventArgs e)
+        private void AcceptTimeout(object sender, RoutedEventArgs e)
         {
             if (countSelected == 0) return;
 
@@ -162,7 +162,7 @@ namespace SetDown
         {
             if (CountDown.IsAlive) return;
 
-            if (sender is not System.Windows.Controls.RadioButton radioButton) return;
+            if (sender is not RadioButton radioButton) return;
 
             int index = int.Parse(radioButton.Name[^1..]);
 
@@ -179,7 +179,7 @@ namespace SetDown
 
             UpdateTimerCounter(Counter.ToString());
 
-            this.Focus();
+            Focus();
         }
 
         private void UnselectRadioButtons()
@@ -189,7 +189,7 @@ namespace SetDown
 
         private void Uncheck(string button)
         {
-            System.Windows.Controls.RadioButton? radioButton = (System.Windows.Controls.RadioButton)FindName(button);
+            RadioButton? radioButton = (RadioButton)FindName(button);
             radioButton.IsChecked = false;
         }
 
@@ -222,7 +222,7 @@ namespace SetDown
 
                 case "Left":
                     DisplaySelected++;
-                    DisplaySelected = DisplaySelected % 3;
+                    DisplaySelected %= 3;
                     UpdateTimerDisplay();
                     break;
 
@@ -268,7 +268,7 @@ namespace SetDown
 
         private static void Privilege(Action accion)
         {
-            System.Windows.Application.Current.Dispatcher.Invoke(accion);
+            Application.Current.Dispatcher.Invoke(accion);
         }
     }
 }
