@@ -193,46 +193,68 @@ namespace SetDown
             radioButton.IsChecked = false;
         }
 
-        private void ChangeTimerValue(object sender, RoutedEventArgs e)
+
+        private void AddToCounter(object sender, RoutedEventArgs e)
         {
             if (CountDown.IsAlive) return;
 
-            if (sender is not Button Button) return;
+            if (Selector_notVisible()) return;
 
+            countSelected += DisplayCount;
+            Counter.SetCounter(countSelected);
+            UpdateTimerCounter(Counter.ToString());
+        }
+
+        private void SubstractFromCounter(object sender, RoutedEventArgs e)
+        {
+            if (CountDown.IsAlive) return;
+
+            if (Selector_notVisible()) return;
+
+            if (countSelected <= 0) return;
+            countSelected -= DisplayCount;
+            Counter.SetCounter(countSelected);
+            UpdateTimerCounter(Counter.ToString());
+        }
+
+        private void LeftDisplay(object sender, RoutedEventArgs e)
+        {
+            if (CountDown.IsAlive) return;
+
+            if (Selector_notVisible()) return;
+
+            DisplaySelected++;
+            DisplaySelected %= 3;
+            UpdateTimerDisplay();
+        }
+
+        private void RightDisplay(object sender, RoutedEventArgs e)
+        {
+            if (CountDown.IsAlive) return;
+
+            if (Selector_notVisible()) return;
+
+            DisplaySelected--;
+            if (DisplaySelected == -1) DisplaySelected = 2;
+            UpdateTimerDisplay();
+        }
+
+        private bool Selector_notVisible()
+        {
             if (BorderCounter.Visibility == Visibility.Hidden)
             {
-                InitialTimerPosition();
-                return;
+                DisplaySelected = 0;
+
+                UpdateTimerDisplay();
+
+                BorderCounter.Visibility = Visibility.Visible;
+                
+                return true;
             }
 
-            switch (Button.Name)
-            {
-                case "Up":
-                    countSelected += DisplayCount;
-                    Counter.SetCounter(countSelected);
-                    UpdateTimerCounter(Counter.ToString());
-                    break;
-
-                case "Down":
-                    if (countSelected <= 0) return;
-                    countSelected -= DisplayCount;
-                    Counter.SetCounter(countSelected);
-                    UpdateTimerCounter(Counter.ToString());
-                    break;
-
-                case "Left":
-                    DisplaySelected++;
-                    DisplaySelected %= 3;
-                    UpdateTimerDisplay();
-                    break;
-
-                case "Right":
-                    DisplaySelected--;
-                    if (DisplaySelected == -1) DisplaySelected = 2;
-                    UpdateTimerDisplay();
-                    break;
-            }
+            return false;
         }
+
 
         private void UpdateTimerDisplay()
         {
@@ -254,16 +276,6 @@ namespace SetDown
                     break;
             }
         }
-
-        private void InitialTimerPosition()
-        {
-            DisplaySelected = 0;
-
-            UpdateTimerDisplay();
-
-            BorderCounter.Visibility = Visibility.Visible;
-        }
-
 
 
         private static void Privilege(Action accion)
