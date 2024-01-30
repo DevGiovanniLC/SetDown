@@ -27,13 +27,13 @@ namespace SetDown
         {
             InitializeComponent();
 
-            AlertWindow = new ModalWindow { Topmost = true };
+            this.AlertWindow = new ModalWindow { Topmost = true };
 
-            AlertWindow.ButtonClicked += Check_Modal;
+            this.AlertWindow.ButtonClicked += Check_Modal;
 
-            Counter = new ComplexCounter(countSelected, AlertWindow, this);
+            this.Counter = new ComplexCounter(this.countSelected, this.AlertWindow, this);
 
-            CountDown = new Thread(ThreadCounter);
+            this.CountDown = new Thread(ThreadCounter);
 
             UpdateTimeouts(sender: null, @event: null);
         }
@@ -45,13 +45,13 @@ namespace SetDown
             try { file = new("timeouts.conf"); }
             catch (Exception) { return; }
 
-            for (int i = 0; i < RadioButtons.Count; i++)
+            for (int i = 0; i < this.RadioButtons.Count; i++)
             {
                 int timeout = GetTimeout(file);
 
-                TimeoutList[i] = timeout;
+                this.TimeoutList[i] = timeout;
 
-                ConfigureRadioButton(RadioButtons[i], timeout);
+                ConfigureRadioButton(this.RadioButtons[i], timeout);
             }
         }
 
@@ -59,9 +59,7 @@ namespace SetDown
         {
             string? line = file.ReadLine();
 
-            if (line == null) return 0;
-
-            return int.Parse(line);
+            return line == null ? 0 : int.Parse(line);
         }
 
         private void ConfigureRadioButton(string radiobuttonName, int timeout)
@@ -87,7 +85,7 @@ namespace SetDown
 
         private void MinimizeWindow(object sender, RoutedEventArgs e)
         {
-            WindowState = WindowState.Minimized;
+            this.WindowState = WindowState.Minimized;
         }
 
         private void SetConfig(object sender, RoutedEventArgs e)
@@ -106,7 +104,7 @@ namespace SetDown
                 while (true)
                 {
                     Thread.Sleep(999);
-                    UpdateTimerCounter(Counter.Next());
+                    UpdateTimerCounter(this.Counter.Next());
                 }
             }
             catch (ThreadInterruptedException) { }
@@ -114,77 +112,77 @@ namespace SetDown
 
         private void UpdateTimerCounter(string count)
         {
-            if (graphCounter.Dispatcher.CheckAccess()) graphCounter.Content = count;
-            else graphCounter.Dispatcher.BeginInvoke(new Action<string>(UpdateTimerCounter), count);
+            if (this.graphCounter.Dispatcher.CheckAccess()) this.graphCounter.Content = count;
+            else this.graphCounter.Dispatcher.BeginInvoke(new Action<string>(UpdateTimerCounter), count);
         }
 
         private void InterruptCounter()
         {
-            try { CountDown.Interrupt(); }
+            try { this.CountDown.Interrupt(); }
             catch (Exception) { }
 
-            Counter.Cancel();
-            Privilege(() => owl.Visibility = Visibility.Hidden);
-            Privilege(() => clock.Visibility = Visibility.Visible);
+            this.Counter.Cancel();
+            Privilege(() => this.owl.Visibility = Visibility.Hidden);
+            Privilege(() => this.clock.Visibility = Visibility.Visible);
         }
 
         private void CancelTimeout(object sender, RoutedEventArgs e)
         {
             InterruptCounter();
 
-            UpdateTimerCounter(Counter.ToString());
+            UpdateTimerCounter(this.Counter.ToString());
 
-            countSelected = 0;
+            this.countSelected = 0;
 
             UnselectRadioButtons();
 
-            BorderCounter.Visibility = Visibility.Hidden;
+            this.BorderCounter.Visibility = Visibility.Hidden;
         }
 
         private void AcceptTimeout(object sender, RoutedEventArgs e)
         {
-            if (countSelected == 0) return;
+            if (this.countSelected == 0) return;
 
             InterruptCounter();
 
-            Counter.SetCounter(countSelected);
+            this.Counter.SetCounter(this.countSelected);
 
-            CountDown = new Thread(ThreadCounter);
+            this.CountDown = new Thread(ThreadCounter);
 
-            CountDown.Start();
+            this.CountDown.Start();
 
-            BorderCounter.Visibility = Visibility.Hidden;
+            this.BorderCounter.Visibility = Visibility.Hidden;
 
-            if (countSelected <= 600) Privilege(() => AlertWindow.Show());
+            if (this.countSelected <= 600) Privilege(() => this.AlertWindow.Show());
         }
 
         private void SetTimer(object sender, RoutedEventArgs e)
         {
-            if (CountDown.IsAlive) return;
+            if (this.CountDown.IsAlive) return;
 
             if (sender is not RadioButton radioButton) return;
 
             int index = int.Parse(radioButton.Name[^1..]);
 
-            countSelected = TimeoutList[index];
+            this.countSelected = this.TimeoutList[index];
 
-            Counter.SetCounter(countSelected);
+            this.Counter.SetCounter(this.countSelected);
 
-            UpdateTimerCounter(Counter.ToString());
+            UpdateTimerCounter(this.Counter.ToString());
         }
 
         private void Check_Modal(object? sender, EventArgs e)
         {
             InterruptCounter();
 
-            UpdateTimerCounter(Counter.ToString());
+            UpdateTimerCounter(this.Counter.ToString());
 
             Focus();
         }
 
         private void UnselectRadioButtons()
         {
-            RadioButtons.ForEach(button => Uncheck(button));
+            this.RadioButtons.ForEach(button => Uncheck(button));
         }
 
         private void Uncheck(string button)
@@ -196,59 +194,59 @@ namespace SetDown
 
         private void AddToCounter(object sender, RoutedEventArgs e)
         {
-            if (CountDown.IsAlive) return;
+            if (this.CountDown.IsAlive) return;
 
             if (Selector_notVisible()) return;
 
-            countSelected += DisplayCount;
-            Counter.SetCounter(countSelected);
-            UpdateTimerCounter(Counter.ToString());
+            this.countSelected += this.DisplayCount;
+            this.Counter.SetCounter(this.countSelected);
+            UpdateTimerCounter(this.Counter.ToString());
         }
 
         private void SubstractFromCounter(object sender, RoutedEventArgs e)
         {
-            if (CountDown.IsAlive) return;
+            if (this.CountDown.IsAlive) return;
 
             if (Selector_notVisible()) return;
 
-            if (countSelected <= 0) return;
-            countSelected -= DisplayCount;
-            Counter.SetCounter(countSelected);
-            UpdateTimerCounter(Counter.ToString());
+            if (this.countSelected <= 0) return;
+            this.countSelected -= this.DisplayCount;
+            this.Counter.SetCounter(this.countSelected);
+            UpdateTimerCounter(this.Counter.ToString());
         }
 
         private void LeftDisplay(object sender, RoutedEventArgs e)
         {
-            if (CountDown.IsAlive) return;
+            if (this.CountDown.IsAlive) return;
 
             if (Selector_notVisible()) return;
 
-            DisplaySelected++;
-            DisplaySelected %= 3;
+            this.DisplaySelected++;
+            this.DisplaySelected %= 3;
             UpdateTimerDisplay();
         }
 
         private void RightDisplay(object sender, RoutedEventArgs e)
         {
-            if (CountDown.IsAlive) return;
+            if (this.CountDown.IsAlive) return;
 
             if (Selector_notVisible()) return;
 
-            DisplaySelected--;
-            if (DisplaySelected == -1) DisplaySelected = 2;
+            this.DisplaySelected--;
+            if (this.DisplaySelected == -1) this.DisplaySelected = 2;
             UpdateTimerDisplay();
         }
 
         private bool Selector_notVisible()
         {
-            if (BorderCounter.Visibility == Visibility.Hidden)
+            if (this.BorderCounter.Visibility == Visibility.Hidden)
             {
-                DisplaySelected = 0;
+                this.DisplaySelected = 0;
 
                 UpdateTimerDisplay();
 
-                BorderCounter.Visibility = Visibility.Visible;
-                
+                this.BorderCounter.Visibility = Visibility.Visible;
+
                 return true;
             }
 
@@ -258,21 +256,21 @@ namespace SetDown
 
         private void UpdateTimerDisplay()
         {
-            switch (DisplaySelected)
+            switch (this.DisplaySelected)
             {
                 case 0: //right
-                    DisplayCount = 1;
-                    BorderCounter.Margin = new Thickness(225, 65, 0, 0);
+                    this.DisplayCount = 1;
+                    this.BorderCounter.Margin = new Thickness(225, 65, 0, 0);
                     break;
 
                 case 1: //mid
-                    DisplayCount = 60;
-                    BorderCounter.Margin = new Thickness(-5, 65, 0, 0);
+                    this.DisplayCount = 60;
+                    this.BorderCounter.Margin = new Thickness(-5, 65, 0, 0);
                     break;
 
                 case 2: //left
-                    DisplayCount = 3600;
-                    BorderCounter.Margin = new Thickness(-235, 65, 0, 0);
+                    this.DisplayCount = 3600;
+                    this.BorderCounter.Margin = new Thickness(-235, 65, 0, 0);
                     break;
             }
         }

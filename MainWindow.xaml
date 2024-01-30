@@ -185,15 +185,17 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsDefaulted" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="#1A1A1A" />
+                                <Setter Property="Background" TargetName="border" Value="aliceblue"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="black" />
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="#1A1A1A" />
-                                <Setter Property="BorderBrush" TargetName="border" Value="black" />
+                                <Setter Property="Background" TargetName="border" Value="aliceblue" />
+                                <Setter Property="BorderBrush" TargetName="border" Value="aliceblue" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
                                 <Setter Property="Background" TargetName="border" Value="#1A1A1A" />
                                 <Setter Property="BorderBrush" TargetName="border" Value="#1A1A1A" />
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="AliceBlue" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -248,6 +250,7 @@
             </Button>
 
             <!-- Radiobuttons -->
+            <Label Content="Time outs (h:m:s)" HorizontalAlignment="Left" Margin="95,50,0,0" VerticalAlignment="Top"  Foreground="AliceBlue" FontSize="16" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
             <RadioButton Style="{DynamicResource RadioStyle}" Name="RadioButton0" Height="50" Width="200" Margin="60,80,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Checked="SetTimer" VerticalContentAlignment="Center">
                 <TextBlock Text="03:00:00" FontFamily="Courier New" Foreground="AliceBlue" FontSize="30" FontWeight="DemiBold" Margin="12,0,0,-3" />
             </RadioButton>
@@ -272,22 +275,38 @@
             <Image Name="owl" Source="resourses\icon2.png" Grid.Column="1" Margin="45,100,45,115" Focusable="False"  HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" />
 
             <!-- Control Buttons -->
-            <Button Name="Right" Style="{DynamicResource ControlButtonStyle}" Grid.Column="1" HorizontalAlignment="Left" Height="50" Width="22" Margin="35,0,0,70" VerticalAlignment="Bottom"  Click="RightDisplay">
-                <TextBlock FontSize="18" Margin="2,-2,0,0" Foreground="Black">▶</TextBlock>
+            <Button Name="Up" Click="AddToCounter" Content="▲" TextElement.FontSize="18" TextElement.Foreground="Black" Style="{DynamicResource ControlButtonStyle}" Grid.Column="0" HorizontalAlignment="Right" Height="23" Width="45" Margin="0,0,12,97" VerticalAlignment="Bottom" BorderBrush="Black">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Margin="0,-3,0,0" VerticalAlignment="Center"/>
+                    </DataTemplate>
+                </Button.ContentTemplate>
             </Button>
 
-            <Button Name="Left" Style="{DynamicResource ControlButtonStyle}" Grid.Column="1" HorizontalAlignment="Left" Height="50" Width="22" Margin="10,0,0,70" VerticalAlignment="Bottom"  Click="LeftDisplay">
-                <TextBlock FontSize="18" Margin="-2,-2,0,0" Foreground="Black">◀</TextBlock>
+            <Button Name="Down"  Click="SubstractFromCounter" Content="▼" TextElement.FontSize="18" TextElement.Foreground="Black"  Style="{DynamicResource ControlButtonStyle}" Grid.Column="0" HorizontalAlignment="Right" Height="23" Width="45" Margin="0,0,12,70" VerticalAlignment="Bottom" BorderBrush="Black">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Margin="0,-3,0,2"/>
+                    </DataTemplate>
+                </Button.ContentTemplate>
             </Button>
 
-            <Button Name="Down" Style="{DynamicResource ControlButtonStyle}" Grid.Column="0" HorizontalAlignment="Right" Height="23" Width="45" Margin="0,0,12,70" VerticalAlignment="Bottom"  Click="SubstractFromCounter">
-                <TextBlock FontSize="18" Margin="-1,-4,0,0" Foreground="Black">▼</TextBlock>
+            <Button Name="Left" Click="LeftDisplay" Content="◀" TextElement.FontSize="18" TextElement.Foreground="Black" Style="{DynamicResource ControlButtonStyle}" Grid.Column="1" HorizontalAlignment="Left" Height="50" Width="22" Margin="10,0,0,70" VerticalAlignment="Bottom" BorderBrush="Black">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Margin="0,0,2,1"/>
+                    </DataTemplate>
+                </Button.ContentTemplate>
             </Button>
 
-            <Button Name="Up" Style="{DynamicResource ControlButtonStyle}" Grid.Column="0" HorizontalAlignment="Right" Height="23" Width="45" Margin="0,0,12,97" VerticalAlignment="Bottom"  Click="AddToCounter">
-                <TextBlock FontSize="18" Margin="-1,-6,0,0" Foreground="Black">▲</TextBlock>
+            <Button Name="Right" Click="RightDisplay" Content="▶" TextElement.FontSize="18" TextElement.Foreground="Black"   Style="{DynamicResource ControlButtonStyle}" Grid.Column="1" HorizontalAlignment="Left" Height="50" Width="22" Margin="35,0,0,70" VerticalAlignment="Bottom" BorderBrush="Black">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Margin="2,0,0,1"/>
+                    </DataTemplate>
+                </Button.ContentTemplate>
             </Button>
-            <Label Content="Time outs (h:m:s)" HorizontalAlignment="Left" Margin="95,50,0,0" VerticalAlignment="Top"  Foreground="AliceBlue" FontSize="16" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+
         </Grid>
     </Border>
 </Window>

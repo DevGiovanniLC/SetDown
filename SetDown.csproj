@@ -2,13 +2,18 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows10.0.22621.0</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
     <UseWindowsForms>True</UseWindowsForms>
     <ApplicationIcon>resourses\icon.ico</ApplicationIcon>
     <ImplicitUsings>disable</ImplicitUsings>
+    <Title>SetDown</Title>
+    <Description>Aplicación para automatizar el apagado de la computadora en base a un tiempo establecido.</Description>
+    <Copyright>Copyright© 2024</Copyright>
+    <PackageIcon>icon2.png</PackageIcon>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +29,7 @@
     <None Remove="icon2.png" />
     <None Remove="resourses\alertIcon.png" />
     <None Remove="resourses\icon.png" />
-    <None Remove="resourses\icon2.png" />
+    <None Remove="timeouts.conf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,9 +52,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="resourses\alertIcon.png" />
-    <Resource Include="resourses\icon.png" />
-    <Resource Include="resourses\icon2.png" />
+    <Resource Include="resourses\alertIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resourses\icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resourses\icon2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="timeouts.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="resourses\icon2.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
