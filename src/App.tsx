@@ -12,6 +12,14 @@ function App() {
   const [isPaused, setIsPaused] = useState(false);
   const canPlay = timerValue !== "00:00:00";
 
+  const handleTimerChange = async (value: string) => {
+    if (isPaused) {
+      await invoke('stop_timer_command');
+      setIsPaused(false);
+    }
+    setTimerValue(value);
+  }
+
   const handlePlay = async () => {
     if (isPaused) {
       await invoke('resume_timer_command');
@@ -53,8 +61,7 @@ function App() {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4">
 
-      <Timer value={timerValue} onChange={setTimerValue} isRunning={isRunning} />
-
+      <Timer value={timerValue} onChange={handleTimerChange} isRunning={isRunning} />
       <TimerController
         onPlay={handlePlay} onPause={handlePause} onStop={handleStop}
         canPlay={canPlay}
