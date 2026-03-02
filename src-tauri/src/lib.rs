@@ -11,6 +11,11 @@ fn stop_timer_command() {
 }
 
 #[tauri::command]
+fn resume_timer_command() {
+    crate::timer::resume_timer();
+}
+
+#[tauri::command]
 fn start_timer_command(app: tauri::AppHandle, hms: String) {
     crate::timer::start_timer(app, hms);
 }
@@ -22,6 +27,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             start_timer_command,
             pause_timer_command,
+            resume_timer_command,
             stop_timer_command
         ])
         .run(tauri::generate_context!())
