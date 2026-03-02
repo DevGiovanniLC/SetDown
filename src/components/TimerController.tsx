@@ -1,17 +1,36 @@
 import { Button } from "react-aria-components";
 import { Pause, Play, Square } from "lucide-react"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function TimerController() {
+interface TimerControllerProps {
+    onPlay: () => void;
+    onPause: () => void;
+    onStop: () => void;
+    onRunning?: (value: boolean) => void;
+}
+
+function TimerController({ onPlay, onPause, onStop, onRunning: isRunningProp }: TimerControllerProps) {
     const [isRunning, setIsRunning] = useState(false);
 
     const handlePlayPause = () => {
         setIsRunning((prev) => !prev);
+        if (isRunning) {
+            onPause();
+        } else {
+            onPlay();
+        }
     }
 
     const handleStop = () => {
         setIsRunning(false);
+        onStop();
     }
+
+    useEffect(() => {
+        if (isRunningProp) {
+            isRunningProp(isRunning);
+        }
+    }, [isRunningProp, isRunning]);
 
     return (
         <div className="flex gap-8 justify-center items-center mt-4">
