@@ -8,6 +8,7 @@ use std::{
 };
 use tauri::AppHandle;
 use tauri::Emitter as TauriEmitter;
+use tauri_plugin_notification::NotificationExt;
 
 // Estado global del temporizador
 lazy_static::lazy_static! {
@@ -83,6 +84,7 @@ pub fn start_timer(app: AppHandle, hms: String) {
     thread::spawn(move || {
         if let Some(mut secs) = parse_hms_to_seconds(&hms) {
             let mut next_tick = Instant::now();
+            let mut five_min_notified = false;
 
             while secs > 0 {
                 let (lock, cvar) = &*thread_handle.control;
@@ -97,6 +99,16 @@ pub fn start_timer(app: AppHandle, hms: String) {
                     break;
                 }
                 drop(status);
+
+                if !five_min_notified && secs <= 300 {
+                    let _ = app
+                        .notification()
+                        .builder()
+                        .title("SetDown")
+                        .body("Quedan menos de 5 minutos")
+                        .show();
+                    five_min_notified = true;
+                }
 
                 let hms_str = seconds_to_hms(secs);
                 let _ = TauriEmitter::emit(&app, "timer_tick", hms_str);

@@ -74,6 +74,7 @@ pub fn run() {
                 }
             }
         })
+        .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
             start_timer_command,
