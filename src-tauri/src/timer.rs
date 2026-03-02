@@ -104,7 +104,20 @@ pub fn start_timer(app: AppHandle, hms: String) {
                 next_tick += Duration::from_secs(1);
                 let now = Instant::now();
                 if next_tick > now {
-                    thread::sleep(next_tick - now);
+                    let wait_duration = next_tick - now;
+                    let (lock, cvar) = &*thread_handle.control;
+                    let status = lock.lock().unwrap();
+                    let (status, _) = cvar
+                        .wait_timeout_while(status, wait_duration, |s| *s == TimerStatus::Running)
+                        .unwrap();
+
+                    if *status == TimerStatus::Stopped {
+                        break;
+                    }
+
+                    if *status == TimerStatus::Paused {
+                        continue;
+                    }
                 } else {
                     next_tick = now;
                 }
