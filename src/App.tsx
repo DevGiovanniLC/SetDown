@@ -9,6 +9,7 @@ import { listen } from '@tauri-apps/api/event';
 function App() {
   const [timerValue, setTimerValue] = useState("00:00:00");
   const [isRunning, setIsRunning] = useState(false);
+  const canPlay = timerValue !== "00:00:00";
 
   const handlePlay = async () => {
     await invoke('start_timer_command', { hms: timerValue });
@@ -38,6 +39,7 @@ function App() {
 
       <TimerController
         onPlay={handlePlay} onPause={handlePause} onStop={handleStop}
+        canPlay={canPlay}
         onRunning={(value) => setIsRunning(value)}
       />
     </div>
