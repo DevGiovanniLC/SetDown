@@ -32,7 +32,8 @@ const Timer = ({ value, onChange, isRunning }: TimerProps) => {
             shouldForceLeadingZeros
             value={internalValue}
             onChange={handleChange}
-            className={'font-semibold text-5xl text-zinc-100'}
+            className={'font-semibold text-6xl text-zinc-100 font-mono bg-transparent border-none focus:ring-0'}
+            style={{ fontVariantNumeric: 'tabular-nums' }}
             isReadOnly={isRunning}
         >
             <Label />

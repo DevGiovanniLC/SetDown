@@ -1,4 +1,4 @@
-import { Button } from "react-aria-components";
+import { Button, Toolbar } from "react-aria-components";
 import { Pause, Play, Square } from "lucide-react"
 import { useEffect, useState } from "react";
 
@@ -43,7 +43,7 @@ function TimerController({ onPlay, onPause, onStop, canPlay = true, onRunning: i
     }, [canPlay, isRunning]);
 
     return (
-        <div className="flex gap-8 justify-center items-center mt-4">
+        <Toolbar aria-label="Controles del temporizador" className="flex gap-8 justify-center items-center mt-4">
             <Button
                 onPress={handlePlayPause}
                 isDisabled={!isRunning && !canPlay}
@@ -61,7 +61,7 @@ function TimerController({ onPlay, onPause, onStop, canPlay = true, onRunning: i
             >
                 <Square className="w-7 h-7 text-zinc-100" />
             </Button>
-        </div>
+        </Toolbar>
     );
 }
 
