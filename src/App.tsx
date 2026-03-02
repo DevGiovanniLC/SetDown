@@ -78,7 +78,7 @@ function App() {
           className={({ isSelected }) =>
             `w-10 h-10 rounded-md border flex items-center justify-center cursor-pointer transition-colors ${
               isSelected
-                ? "bg-red-500 border-red-400 text-white"
+                ? "bg-red-600 border-red-300 text-white"
                 : "bg-zinc-800 border-zinc-700 text-zinc-200 hover:bg-zinc-700"
             }`
           }
@@ -92,7 +92,7 @@ function App() {
           className={({ isSelected }) =>
             `w-10 h-10 rounded-md border flex items-center justify-center cursor-pointer transition-colors ${
               isSelected
-                ? "bg-indigo-500 border-indigo-400 text-white"
+                ? "bg-indigo-600 border-indigo-300 text-white"
                 : "bg-zinc-800 border-zinc-700 text-zinc-200 hover:bg-zinc-700"
             }`
           }
@@ -106,7 +106,7 @@ function App() {
           className={({ isSelected }) =>
             `w-10 h-10 rounded-md border flex items-center justify-center cursor-pointer transition-colors ${
               isSelected
-                ? "bg-amber-500 border-amber-400 text-white"
+                ? "bg-amber-600 border-amber-300 text-white"
                 : "bg-zinc-800 border-zinc-700 text-zinc-200 hover:bg-zinc-700"
             }`
           }
