@@ -29,6 +29,7 @@ const Timer = ({ value, onChange, isRunning }: TimerProps) => {
         <TimeField
             aria-label='input-time'
             granularity="second"
+            shouldForceLeadingZeros
             value={internalValue}
             onChange={handleChange}
             className={'font-semibold text-5xl text-zinc-100'}
