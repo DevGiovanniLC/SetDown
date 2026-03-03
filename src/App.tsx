@@ -5,6 +5,7 @@ import TimerController from "./components/TimerController";
 import { invoke } from '@tauri-apps/api/core';
 import { listen } from '@tauri-apps/api/event';
 import ActionGroup, { FinishAction } from "./components/ActionGroup";
+import TimerSelector from "./components/TimerSelector";
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
   const [timerStatus, setTimerStatus] = useState<TimerStatus>("idle");
   const [finishAction, setFinishAction] = useState<FinishAction>("notify");
 
+  const isRunning = timerStatus === "running";
   const isPaused = timerStatus === "paused";
   const canPlay = timerValue !== "00:00:00";
 
@@ -63,11 +65,18 @@ function App() {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4">
 
-      <Timer
-        value={timerValue}
-        onChange={handleTimerChange}
-        timerStatus={timerStatus}
-      />
+      <div className="flex items-center gap-2 ml-10">
+        <Timer
+          value={timerValue}
+          onChange={handleTimerChange}
+          timerStatus={timerStatus}
+        />
+
+        <TimerSelector
+          isRunning={isRunning}
+          handlePresetSelect={handleTimerChange}
+        />
+      </div>
 
       <ActionGroup
         finishAction={finishAction}
@@ -75,7 +84,9 @@ function App() {
       />
 
       <TimerController
-        onPlay={handlePlay} onPause={handlePause} onStop={handleStop}
+        onPlay={handlePlay}
+        onPause={handlePause}
+        onStop={handleStop}
         canPlay={canPlay}
       />
     </div>
@@ -83,3 +94,4 @@ function App() {
 }
 
 export default App;
+
