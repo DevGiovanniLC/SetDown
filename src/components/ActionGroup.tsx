@@ -15,7 +15,7 @@ function ActionGroup(props: ActionGroupProps) {
             aria-label="Acción al finalizar"
             value={props.finishAction}
             onChange={value => props.setFinishAction((value as FinishAction))}
-            className="flex items-center justify-center gap-3 rounded-2xl border border-zinc-700/60 bg-zinc-900/60 py-3 px-5 w-fit mx-auto"
+            className="flex flex-col items-center gap-2 rounded-xl border border-zinc-700/55 bg-zinc-900/55 py-2 px-2 w-fit"
         >
             <Radio
                 value="poweroff"
@@ -24,7 +24,7 @@ function ActionGroup(props: ActionGroupProps) {
                 }
                 aria-label="Apagar"
             >
-                <Power className="w-6 h-6" />
+                <Power className="w-5 h-5" />
             </Radio>
 
             <Radio
@@ -34,7 +34,7 @@ function ActionGroup(props: ActionGroupProps) {
                 }
                 aria-label="Hibernar"
             >
-                <Moon className="w-6 h-6" />
+                <Moon className="w-5 h-5" />
             </Radio>
 
             <Radio
@@ -44,7 +44,7 @@ function ActionGroup(props: ActionGroupProps) {
                 }
                 aria-label="Notificación"
             >
-                <Bell className="w-6 h-6" />
+                <Bell className="w-5 h-5" />
             </Radio>
         </RadioGroup>
     );

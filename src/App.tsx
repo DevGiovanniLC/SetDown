@@ -63,54 +63,56 @@ function App() {
   }, []);
 
   return (
-    <div className="app-shell">
+    <div className="app-shell  max-w-9/12 mx-auto p-4">
       <div className="aurora aurora--one" />
       <div className="aurora aurora--two" />
       <div className="app-card">
-        <div className="p-0 m-0 ">
-          <span
-            className={`status-pill ${
-              timerStatus === "running"
+        <div className="content-layout">
+          <aside className="flex items-center h-full" aria-label="Acciones al finalizar">
+            <ActionGroup
+              finishAction={finishAction}
+              setFinishAction={setFinishAction}
+            />
+          </aside>
+
+          <main className="flex gap-8 items-center justify-center flex-col py-12">
+            <div className="flex items-center justify-center ml-10 ">
+              <Timer
+                value={timerValue}
+                onChange={handleTimerChange}
+                timerStatus={timerStatus}
+              />
+
+              <TimerSelector
+                isRunning={isRunning}
+                handlePresetSelect={handleTimerChange}
+              />
+            </div>
+
+            <TimerController
+              onPlay={handlePlay}
+              onPause={handlePause}
+              onStop={handleStop}
+              canPlay={canPlay}
+            />
+          </main>
+
+
+          <div className="p-0 ml-4 flex justify-end w-full ">
+            <span
+              className={`status-pill ${timerStatus === "running"
                 ? "status-pill--running"
                 : timerStatus === "paused"
                   ? "status-pill--paused"
                   : "status-pill--idle"
-            }`}
-          >
-            {timerStatus === "running" ? "Running" : timerStatus === "paused" ? "Paused" : "Idle"}
-          </span>
-        </div>
-
-        <div className="space-y-2">
-          <p className="section-caption">Timer</p>
-          <div className="flex items-center justify-center ml-10">
-            <Timer
-              value={timerValue}
-              onChange={handleTimerChange}
-              timerStatus={timerStatus}
-            />
-
-            <TimerSelector
-              isRunning={isRunning}
-              handlePresetSelect={handleTimerChange}
-            />
+                }`}
+            >
+              {timerStatus === "running" ? "Running" : timerStatus === "paused" ? "Paused" : "Idle"}
+            </span>
           </div>
-        </div>
 
-        <div className="space-y-2">
-          <p className="section-caption">When timer ends</p>
-          <ActionGroup
-            finishAction={finishAction}
-            setFinishAction={setFinishAction}
-          />
+          <div className="layout-spacer" aria-hidden="true" />
         </div>
-
-        <TimerController
-          onPlay={handlePlay}
-          onPause={handlePause}
-          onStop={handleStop}
-          canPlay={canPlay}
-        />
       </div>
     </div>
   );
