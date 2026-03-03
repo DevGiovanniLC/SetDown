@@ -43,19 +43,22 @@ function TimerController({ onPlay, onPause, onStop, canPlay = true, onRunning: i
     }, [canPlay, isRunning]);
 
     return (
-        <Toolbar aria-label="Controles del temporizador" className="flex gap-8 justify-center items-center mt-4">
+        <Toolbar aria-label="Controles del temporizador" className="flex gap-8 justify-center items-center">
             <Button
                 onPress={handlePlayPause}
                 isDisabled={!isRunning && !canPlay}
-                className={isRunning ? "rounded-full w-14 h-14 flex items-center justify-center bg-linear-to-br from-yellow-400 to-yellow-500 shadow-lg hover:scale-115 transition-transform duration-300 " :
-                    "rounded-full w-14 h-14 flex items-center justify-center bg-linear-to-br from-green-400 to-green-500 shadow-lg hover:scale-115 transition-transform duration-300 disabled:opacity-50 disabled:hover:scale-100"}
+                className={
+                    isRunning
+                        ? "controller-btn controller-btn--pause"
+                        : "controller-btn controller-btn--play"
+                }
                 aria-label={isRunning ? "Pause" : "Start"}
             >
                 {isRunning ? <Pause className="w-7 h-7 text-zinc-100" /> : <Play className="w-7 h-7 text-zinc-100" />}
             </Button>
             <Button
                 onPress={handleStop}
-                className="rounded-full w-14 h-14 flex items-center justify-center bg-linear-to-br from-red-400 to-red-500 shadow-lg hover:scale-115 transition-transform duration-300 disabled:opacity-50 disabled:hover:scale-100"
+                className="controller-btn controller-btn--stop"
                 aria-label="Stop"
                 isDisabled={!isRunning && !canPlay}
             >

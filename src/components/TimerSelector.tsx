@@ -19,12 +19,16 @@ function TimerSelector(props: TimerSelectorProp) {
 
     return (
         <MenuTrigger>
-            <Button aria-label="Abrir presets" isDisabled={props.isRunning} className="w-9 h-9 rounded-md bg-zinc-800/80 hover:bg-zinc-700 text-zinc-100 flex items-center justify-center disabled:opacity-50">
+            <Button
+                aria-label="Abrir presets"
+                isDisabled={props.isRunning}
+                className="h-11 w-11 rounded-xl border border-zinc-500/40 bg-zinc-800/80 hover:bg-zinc-700/90 text-zinc-100 flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-45 disabled:hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 focus-visible:ring-zinc-200"
+            >
                 <ChevronDown className="w-5 h-5" />
             </Button>
-            <Popover className="bg-zinc-900 border border-zinc-700 rounded-md shadow-lg p-1">
+            <Popover className="rounded-xl border border-zinc-700/80 bg-zinc-900/95 shadow-2xl p-1.5 backdrop-blur-md animate-[card-in_200ms_ease-out]">
                 <Menu className="outline-none">
-                    {presets.map(preset => <MenuItem key={preset.value} id={preset.value} textValue={preset.label} onAction={() => props.handlePresetSelect(preset.value)} className="px-2 py-1  text-zinc-100 rounded cursor-pointer hover:bg-zinc-800">
+                    {presets.map(preset => <MenuItem key={preset.value} id={preset.value} textValue={preset.label} onAction={() => props.handlePresetSelect(preset.value)} className={({ isFocused }) => `px-3 py-2 text-sm text-zinc-100 rounded-lg cursor-pointer transition-colors duration-150 ${isFocused ? 'bg-zinc-800' : 'hover:bg-zinc-800'}`}>
                         {preset.label}
                     </MenuItem>)}
                 </Menu>

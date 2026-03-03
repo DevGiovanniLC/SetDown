@@ -19,8 +19,6 @@ interface TimerProps {
 
 
 
-
-
 const Timer = ({ value, onChange, timerStatus = "idle" }: TimerProps) => {
     const [internalValue, setInternalValue] = useState(parseTime('00:00:00'));
     const isRunning = timerStatus === "running";
@@ -45,12 +43,12 @@ const Timer = ({ value, onChange, timerStatus = "idle" }: TimerProps) => {
             shouldForceLeadingZeros
             value={internalValue}
             onChange={handleChange}
-            className={'font-semibold text-6xl text-zinc-100 font-mono bg-transparent border-none focus:ring-0'}
+            className={`timer-display`}
             style={{ fontVariantNumeric: 'tabular-nums' }}
             isReadOnly={isRunning}
         >
             <Label />
-            <DateInput>
+            <DateInput className="timer-input-shell">
                 {segment => (
                     <span
                         onBlur={handleSegmentBlur}
@@ -60,7 +58,12 @@ const Timer = ({ value, onChange, timerStatus = "idle" }: TimerProps) => {
                             }
                         }}
                     >
-                        <DateSegment segment={segment} />
+                        <DateSegment
+                            segment={segment}
+                            className={({ isFocused, isPlaceholder }) =>
+                                `timer-segment ${isFocused ? 'timer-segment--focused' : ''} ${isPlaceholder ? 'timer-segment--placeholder' : ''}`
+                            }
+                        />
                     </span>
                 )}
             </DateInput>

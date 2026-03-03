@@ -6,9 +6,9 @@
   line-height: 24px;
   font-weight: 400;
 
-  @apply text-zinc-300;
+  @apply text-zinc-200;
 
-  background-color: #292929;
+  background-color: #101216;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -21,8 +21,188 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
+  background: radial-gradient(circle at 20% 20%, #1b2b3f 0%, #101216 40%),
+    radial-gradient(circle at 80% 10%, #2a1f3f 0%, transparent 42%),
+    #101216;
+  overflow: hidden;
 }
 
 #root {
   height: 100%;
+}
+
+.app-shell {
+  @apply relative h-full w-full flex items-center justify-center p-6;
+}
+
+.app-card {
+  @apply relative z-10 w-full max-w-2xl rounded-3xl border border-white/10 bg-zinc-900/55 shadow-2xl px-8 py-7 flex flex-col gap-6 backdrop-blur-xl;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  animation: card-in 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.section-caption {
+  @apply text-[0.68rem] uppercase tracking-[0.18em] text-zinc-400 font-medium text-center;
+}
+
+.status-pill {
+  @apply text-xs font-medium px-3 py-1 rounded-full border transition-all duration-300;
+}
+
+.status-pill--running {
+  @apply border-emerald-300/60 bg-emerald-500/20 text-emerald-200;
+}
+
+.status-pill--paused {
+  @apply border-amber-300/60 bg-amber-500/20 text-amber-200;
+}
+
+.status-pill--idle {
+  @apply border-zinc-500/70 bg-zinc-700/40 text-zinc-200;
+}
+
+.aurora {
+  position: absolute;
+  width: 24rem;
+  height: 24rem;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+  animation: drift 18s ease-in-out infinite;
+}
+
+.aurora--one {
+  background: #3b82f6;
+  top: -6rem;
+  left: -7rem;
+}
+
+.aurora--two {
+  background: #a855f7;
+  bottom: -9rem;
+  right: -7rem;
+  animation-delay: -6s;
+}
+
+.timer-display {
+  @apply bg-transparent border-none outline-none;
+}
+
+.timer-display--running .timer-input-shell {
+  @apply text-emerald-200;
+}
+
+.timer-display--idle .timer-input-shell {
+  @apply text-zinc-100;
+}
+
+.timer-input-shell {
+  @apply rounded-2xl px-5 py-3 font-semibold font-mono tracking-tight transition-all duration-300;
+  font-size: clamp(2.15rem, 6.2vw, 3.75rem);
+  text-shadow: 0 0 28px rgba(255, 255, 255, 0.06);
+}
+
+.timer-segment {
+  @apply rounded-md px-0.5 transition-all duration-200;
+}
+
+.timer-segment--focused {
+  @apply bg-blue-500/30 text-blue-100;
+}
+
+.timer-segment:focus-visible {
+  @apply outline-none ring-2 ring-blue-300/70;
+}
+
+.timer-segment--placeholder {
+  @apply text-zinc-500;
+}
+
+.controller-btn {
+  @apply rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-all duration-250 hover:scale-110 hover:-translate-y-0.5 disabled:opacity-45 disabled:hover:scale-100 disabled:hover:translate-y-0;
+}
+
+.controller-btn:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-offset-zinc-950 ring-zinc-200;
+}
+
+.controller-btn--play {
+  @apply bg-linear-to-br from-emerald-400 to-emerald-500;
+}
+
+.controller-btn--pause {
+  @apply bg-linear-to-br from-amber-400 to-amber-500;
+}
+
+.controller-btn--stop {
+  @apply bg-linear-to-br from-rose-400 to-red-500;
+}
+
+.action-chip {
+  @apply w-12 h-12 rounded-xl border flex items-center justify-center cursor-pointer transition-all duration-200 hover:-translate-y-0.5;
+}
+
+.action-chip:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-offset-zinc-950 ring-zinc-200;
+}
+
+.action-chip--idle {
+  @apply bg-zinc-800/85 border-zinc-700 text-zinc-200 hover:bg-zinc-700;
+}
+
+.action-chip--power {
+  @apply bg-rose-600 border-rose-300 text-white shadow-[0_0_20px_rgba(244,63,94,0.35)];
+}
+
+.action-chip--hibernate {
+  @apply bg-indigo-600 border-indigo-300 text-white shadow-[0_0_20px_rgba(99,102,241,0.35)];
+}
+
+.action-chip--notify {
+  @apply bg-amber-500 border-amber-200 text-zinc-950 shadow-[0_0_20px_rgba(251,191,36,0.35)];
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(1rem, -1.4rem) scale(1.08);
+  }
+}
+
+@media (max-width: 680px) {
+  .app-shell {
+    @apply p-3;
+  }
+
+  .app-card {
+    @apply px-4 py-5 rounded-2xl gap-5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-card,
+  .aurora,
+  .controller-btn,
+  .action-chip,
+  .timer-input-shell {
+    animation: none !important;
+    transition-duration: 0ms !important;
+  }
 }

@@ -63,32 +63,55 @@ function App() {
   }, []);
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-4">
+    <div className="app-shell">
+      <div className="aurora aurora--one" />
+      <div className="aurora aurora--two" />
+      <div className="app-card">
+        <div className="p-0 m-0 ">
+          <span
+            className={`status-pill ${
+              timerStatus === "running"
+                ? "status-pill--running"
+                : timerStatus === "paused"
+                  ? "status-pill--paused"
+                  : "status-pill--idle"
+            }`}
+          >
+            {timerStatus === "running" ? "Running" : timerStatus === "paused" ? "Paused" : "Idle"}
+          </span>
+        </div>
 
-      <div className="flex items-center gap-2 ml-10">
-        <Timer
-          value={timerValue}
-          onChange={handleTimerChange}
-          timerStatus={timerStatus}
-        />
+        <div className="space-y-2">
+          <p className="section-caption">Timer</p>
+          <div className="flex items-center justify-center ml-10">
+            <Timer
+              value={timerValue}
+              onChange={handleTimerChange}
+              timerStatus={timerStatus}
+            />
 
-        <TimerSelector
-          isRunning={isRunning}
-          handlePresetSelect={handleTimerChange}
+            <TimerSelector
+              isRunning={isRunning}
+              handlePresetSelect={handleTimerChange}
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <p className="section-caption">When timer ends</p>
+          <ActionGroup
+            finishAction={finishAction}
+            setFinishAction={setFinishAction}
+          />
+        </div>
+
+        <TimerController
+          onPlay={handlePlay}
+          onPause={handlePause}
+          onStop={handleStop}
+          canPlay={canPlay}
         />
       </div>
-
-      <ActionGroup
-        finishAction={finishAction}
-        setFinishAction={setFinishAction}
-      />
-
-      <TimerController
-        onPlay={handlePlay}
-        onPause={handlePause}
-        onStop={handleStop}
-        canPlay={canPlay}
-      />
     </div>
   );
 }
