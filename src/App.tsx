@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import Timer from "./components/Timer";
+import Timer, { TimerStatus } from "./components/Timer";
 import TimerController from "./components/TimerController";
 import { invoke } from '@tauri-apps/api/core';
 import { listen } from '@tauri-apps/api/event';
-import { Radio, RadioGroup } from "react-aria-components";
-import { Bell, Moon, Power } from "lucide-react";
+import ActionGroup, { FinishAction } from "./components/ActionGroup";
 
-type FinishAction = "poweroff" | "hibernate" | "notify";
 
 function App() {
   const [timerValue, setTimerValue] = useState("00:00:00");
-  const [isRunning, setIsRunning] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
+  const [timerStatus, setTimerStatus] = useState<TimerStatus>("idle");
   const [finishAction, setFinishAction] = useState<FinishAction>("notify");
+
+  const isPaused = timerStatus === "paused";
   const canPlay = timerValue !== "00:00:00";
 
   const handleTimerChange = async (value: string) => {
     if (isPaused) {
       await invoke('stop_timer_command');
-      setIsPaused(false);
+      setTimerStatus("idle");
     }
     setTimerValue(value);
   }
@@ -27,23 +26,23 @@ function App() {
   const handlePlay = async () => {
     if (isPaused) {
       await invoke('resume_timer_command');
-      setIsPaused(false);
+      setTimerStatus("running");
       return;
     }
 
     await invoke('start_timer_command', { hms: timerValue });
-    setIsPaused(false);
+    setTimerStatus("running");
   }
 
   const handleStop = async () => {
     await invoke('stop_timer_command');
     setTimerValue("00:00:00");
-    setIsPaused(false);
+    setTimerStatus("idle");
   }
 
   const handlePause = async () => {
     await invoke('pause_timer_command');
-    setIsPaused(true);
+    setTimerStatus("paused");
   }
 
   useEffect(() => {
@@ -52,8 +51,7 @@ function App() {
     });
 
     const unlistenFinished = listen('timer_finished', () => {
-      setIsPaused(false);
-      setIsRunning(false);
+      setTimerStatus("idle");
     });
 
     return () => {
@@ -65,61 +63,20 @@ function App() {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4">
 
-      <Timer value={timerValue} onChange={handleTimerChange} isRunning={isRunning} />
+      <Timer
+        value={timerValue}
+        onChange={handleTimerChange}
+        timerStatus={timerStatus}
+      />
 
-      <RadioGroup
-        aria-label="Acción al finalizar"
-        value={finishAction}
-        onChange={(value) => setFinishAction(value as FinishAction)}
-        className="flex items-center gap-3"
-      >
-        <Radio
-          value="poweroff"
-          className={({ isSelected }) =>
-            `w-10 h-10 rounded-md border flex items-center justify-center cursor-pointer transition-colors ${
-              isSelected
-                ? "bg-red-600 border-red-300 text-white"
-                : "bg-zinc-800 border-zinc-700 text-zinc-200 hover:bg-zinc-700"
-            }`
-          }
-          aria-label="Apagar"
-        >
-          <Power className="w-5 h-5" />
-        </Radio>
-
-        <Radio
-          value="hibernate"
-          className={({ isSelected }) =>
-            `w-10 h-10 rounded-md border flex items-center justify-center cursor-pointer transition-colors ${
-              isSelected
-                ? "bg-indigo-600 border-indigo-300 text-white"
-                : "bg-zinc-800 border-zinc-700 text-zinc-200 hover:bg-zinc-700"
-            }`
-          }
-          aria-label="Hibernar"
-        >
-          <Moon className="w-5 h-5" />
-        </Radio>
-
-        <Radio
-          value="notify"
-          className={({ isSelected }) =>
-            `w-10 h-10 rounded-md border flex items-center justify-center cursor-pointer transition-colors ${
-              isSelected
-                ? "bg-amber-600 border-amber-300 text-white"
-                : "bg-zinc-800 border-zinc-700 text-zinc-200 hover:bg-zinc-700"
-            }`
-          }
-          aria-label="Notificación"
-        >
-          <Bell className="w-5 h-5" />
-        </Radio>
-      </RadioGroup>
+      <ActionGroup
+        finishAction={finishAction}
+        setFinishAction={setFinishAction}
+      />
 
       <TimerController
         onPlay={handlePlay} onPause={handlePause} onStop={handleStop}
         canPlay={canPlay}
-        onRunning={(value) => setIsRunning(value)}
       />
     </div>
   );

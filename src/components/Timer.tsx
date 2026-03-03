@@ -16,14 +16,19 @@ import { parseTime } from '@internationalized/date';
 import { useEffect, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
+export type TimerStatus = "idle" | "running" | "paused";
+
 interface TimerProps {
     value: string;
     onChange: (value: string) => void;
-    isRunning?: boolean;
+    timerStatus?: TimerStatus;
 }
 
-const Timer = ({ value, onChange, isRunning }: TimerProps) => {
+const Timer = ({ value, onChange, timerStatus = "idle" }: TimerProps) => {
+
     const [internalValue, setInternalValue] = useState(parseTime('00:00:00'));
+    const isRunning = timerStatus === "running";
+
     const presets = [
         { label: '10 min', value: '00:10:00' },
         { label: '30 min', value: '00:30:00' },
