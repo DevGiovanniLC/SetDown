@@ -1,4 +1,4 @@
-use crate::services::notifier::{check_and_notify_five_minutes, reset_five_minute_notification};
+use crate::services::notifier::{check_and_notify, reset_five_minute_notification};
 use std::{
     sync::{
         atomic::{AtomicU64, Ordering},
@@ -101,7 +101,7 @@ pub fn start_timer(app: AppHandle, hms: String) {
                 }
                 drop(status);
 
-                check_and_notify_five_minutes(&app, secs);
+                check_and_notify(&app, secs);
 
                 let hms_str = seconds_to_hms(secs);
                 let _ = TauriEmitter::emit(&app, "timer_tick", hms_str);
