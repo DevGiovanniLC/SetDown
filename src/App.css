@@ -8,7 +8,7 @@
 
   @apply text-zinc-200;
 
-  background-color: #101216;
+  background-color: #10121665;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -22,11 +22,11 @@ body {
   padding: 0;
   height: 100vh;
   background:
-    radial-gradient(circle at 14% 16%, rgba(34, 197, 255, 0.18) 0%, transparent 36%),
-    radial-gradient(circle at 84% 10%, rgba(168, 85, 247, 0.22) 0%, transparent 40%),
+    radial-gradient(circle at 14% 16%, rgba(34, 197, 255, 0.1) 0%, transparent 36%),
+    radial-gradient(circle at 84% 10%, rgba(168, 85, 247, 0.2) 0%, transparent 40%),
     radial-gradient(circle at 76% 82%, rgba(59, 130, 246, 0.2) 0%, transparent 42%),
-    radial-gradient(circle at 26% 78%, rgba(236, 72, 153, 0.14) 0%, transparent 38%),
-    linear-gradient(165deg, #06080f 0%, #0a0e19 45%, #0a0d15 100%);
+    radial-gradient(circle at 26% 78%, rgba(236, 72, 153, 0.1) 0%, transparent 38%);
+    backdrop-filter: blur(80px) saturate(250%);
   overflow: hidden;
 }
 
@@ -35,11 +35,11 @@ body {
 }
 
 .app-shell {
-  @apply relative h-full w-full flex items-center justify-center p-6;
+  @apply relative h-full w-full flex items-center justify-center;
 }
 
 .app-card {
-  @apply relative z-10 w-full max-w-2xl rounded-3xl border border-white/12 bg-zinc-900/35 shadow-2xl px-8 py-5 flex flex-col gap-6;
+  @apply relative z-10 w-full h-full bg-zinc-900/55 px-8 py-5 flex flex-col gap-6 items-center justify-center;
   background-image:
     linear-gradient(125deg, rgba(24, 29, 48, 0.38) 0%, rgba(20, 23, 36, 0.247) 58%, rgba(17, 19, 30, 0.5) 100%),
     radial-gradient(circle at 85% 8%, rgba(59, 130, 246, 0.18) 0%, transparent 38%),
@@ -105,6 +105,7 @@ body {
 
 .aurora--one {
   background: radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.82) 0%, rgba(59, 130, 246, 0.55) 40%, rgba(30, 64, 175, 0.25) 72%, transparent 100%);
+  backdrop-filter: blur(80px) saturate(250%);
   top: -6rem;
   left: -7rem;
 }
@@ -214,42 +215,5 @@ body {
 
   50% {
     transform: translate(1rem, -1.4rem) scale(1.08);
-  }
-}
-
-@media (max-width: 680px) {
-  .app-shell {
-    @apply p-3;
-  }
-
-  .app-card {
-    @apply px-4 py-5 rounded-2xl gap-2;
-  }
-
-  .content-layout {
-    @apply flex flex-col gap-2;
-  }
-
-  .action-aside {
-    @apply pt-0;
-  }
-
-  .section-caption--aside {
-    @apply text-center;
-  }
-
-  .layout-spacer {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .app-card,
-  .aurora,
-  .controller-btn,
-  .action-chip,
-  .timer-input-shell {
-    animation: none !important;
-    transition-duration: 0ms !important;
   }
 }

@@ -13,11 +13,15 @@
     "windows": [
       {
         "title": "SetDown",
-        "width": 800,
-        "height": 500,
+        "width": 600,
+        "height": 300,
         "resizable": false,
         "fullscreen": false,
-        "maximizable": false
+        "maximizable": false,
+        "transparent": true,
+        "backgroundColor": "#000",
+        "center": true,
+        "shadow": true
       }
     ],
     "security": {

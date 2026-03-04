@@ -63,7 +63,7 @@ function App() {
   }, []);
 
   return (
-    <div className="app-shell  max-w-9/12 mx-auto p-4">
+    <div className="app-shell">
       <div className="aurora aurora--one" />
       <div className="aurora aurora--two" />
       <div className="app-card">
