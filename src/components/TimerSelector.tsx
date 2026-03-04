@@ -10,10 +10,8 @@ function TimerSelector(props: TimerSelectorProp) {
 
     const presets = [
         { label: '10 min', value: '00:10:00' },
-        { label: '30 min', value: '00:30:00' },
         { label: '45 min', value: '00:45:00' },
         { label: '1 hour', value: '01:00:00' },
-        { label: '1.5 hours', value: '01:30:00' },
         { label: '2 hours', value: '02:00:00' },
     ];
 
@@ -27,8 +25,8 @@ function TimerSelector(props: TimerSelectorProp) {
                 <ChevronDown className="w-4 h-4" />
             </Button>
             <Popover className="rounded-xl border border-zinc-700/80 bg-zinc-900/95 shadow-2xl p-1.5 backdrop-blur-md animate-[card-in_200ms_ease-out]">
-                <Menu className="outline-none">
-                    {presets.map(preset => <MenuItem key={preset.value} id={preset.value} textValue={preset.label} onAction={() => props.handlePresetSelect(preset.value)} className={({ isFocused }) => `px-3 py-2 text-sm text-zinc-100 rounded-lg cursor-pointer transition-colors duration-150 ${isFocused ? 'bg-zinc-800' : 'hover:bg-zinc-800'}`}>
+                <Menu className="outline-none ">
+                    {presets.map(preset => <MenuItem key={preset.value} id={preset.value} textValue={preset.label} onAction={() => props.handlePresetSelect(preset.value)} className={({ isFocused }) => `px-2 py-1 text-sm text-zinc-100 rounded-lg cursor-pointer transition-colors duration-150 ${isFocused ? 'bg-zinc-800' : 'hover:bg-zinc-800'}`}>
                         {preset.label}
                     </MenuItem>)}
                 </Menu>
