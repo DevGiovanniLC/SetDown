@@ -131,7 +131,7 @@ body {
 }
 
 .timer-input-shell {
-  @apply rounded-2xl text-5xl px-5 py-3 font-semibold font-mono tracking-tight transition-all duration-300;
+  @apply rounded-2xl text-5xl px-3 py-2 font-semibold font-mono tracking-tight transition-all duration-300;
   text-shadow: 0 0 28px rgba(255, 255, 255, 0.06);
 }
 
@@ -140,7 +140,7 @@ body {
 }
 
 .timer-segment--focused {
-  @apply bg-blue-500/30 text-blue-100;
+  @apply bg-purple-500/20 text-blue-100;
 }
 
 .timer-segment:focus-visible {

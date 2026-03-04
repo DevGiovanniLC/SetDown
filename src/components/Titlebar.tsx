@@ -26,7 +26,7 @@ function Titlebar() {
 
     return (
         <header
-            className="flex items-center justify-between bg-zinc-950 w-full px-3 pt-10 pb-2"
+            className="flex items-center justify-between bg-zinc-950 w-full px-3 py-2"
             data-tauri-drag-region
             onMouseDown={handleDragStart}
         >

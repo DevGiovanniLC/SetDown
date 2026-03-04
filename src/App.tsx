@@ -77,8 +77,8 @@ function App() {
             />
           </aside>
 
-          <main className="flex gap-6 items-center justify-center flex-col py-12">
-            <div className="flex items-center justify-center ml-10 ">
+          <main className="flex gap-6 items-center justify-center flex-col py-8 px-6">
+            <div className="flex items-center justify-center ml-8">
               <Timer
                 value={timerValue}
                 onChange={handleTimerChange}
