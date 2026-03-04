@@ -34,10 +34,10 @@ function Titlebar() {
                 SetDown
             </h1>
 
-            <div className="flex items-center justify-center gap-2">
+            <div className="flex items-center justify-center gap-3">
                 <button
                     type="button"
-                    className="border border-zinc-600 rounded-sm py-1 px-2 hover:bg-zinc-700/50 transition-colors duration-300 text-sm"
+                    className="border border-zinc-600 rounded-md py-1 px-2 hover:bg-zinc-700/50 transition-colors duration-300 text-sm"
                     onClick={handleMinimize}
                     aria-label="Minimizar ventana"
                 >
@@ -46,7 +46,7 @@ function Titlebar() {
 
                 <button
                     type="button"
-                    className="border border-zinc-600 rounded-sm py-0.5 px-2.5 hover:bg-red-900/80 transition-colors duration-300"
+                    className="border border-zinc-600 rounded-md py-0.5 px-2.5 hover:bg-red-900/80 transition-colors duration-300"
                     onClick={handleClose}
                     aria-label="Cerrar ventana"
                 >
