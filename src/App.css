@@ -107,14 +107,14 @@ body {
 .aurora--one {
   background: radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.82) 0%, rgba(59, 130, 246, 0.55) 40%, rgba(30, 64, 175, 0.25) 72%, transparent 100%);
   backdrop-filter: blur(80px) saturate(250%);
-  top: -6rem;
-  left: -7rem;
+  top: 5rem;
+  left: -5rem;
 }
 
 .aurora--two {
   background: radial-gradient(circle at 70% 35%, rgba(232, 121, 249, 0.84) 0%, rgba(168, 85, 247, 0.56) 44%, rgba(91, 33, 182, 0.28) 74%, transparent 100%);
   bottom: -9rem;
-  right: -7rem;
+  right: -5rem;
   animation-delay: -6s;
 }
 
