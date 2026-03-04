@@ -6,6 +6,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { listen } from '@tauri-apps/api/event';
 import ActionGroup, { FinishAction } from "./components/ActionGroup";
 import TimerSelector from "./components/TimerSelector";
+import Titlebar from "./components/Titlebar";
 
 
 function App() {
@@ -63,7 +64,8 @@ function App() {
   }, []);
 
   return (
-    <div className="app-shell">
+    <div className="app-shell flex flex-col">
+        <Titlebar />
       <div className="aurora aurora--one" />
       <div className="aurora aurora--two" />
       <div className="app-card">

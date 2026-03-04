@@ -8,7 +8,7 @@
 
   @apply text-zinc-200;
 
-  background-color: #10121665;
+  background-color: rgba(16, 18, 22, 0.438);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -49,6 +49,7 @@ body {
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   animation: card-in 650ms cubic-bezier(0.22, 1, 0.36, 1);
 }
+
 
 .content-layout {
   @apply grid items-start;

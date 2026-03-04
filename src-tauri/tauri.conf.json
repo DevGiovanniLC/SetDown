@@ -15,6 +15,7 @@
         "title": "SetDown",
         "width": 600,
         "height": 300,
+        "decorations": false,
         "resizable": false,
         "fullscreen": false,
         "maximizable": false,
