@@ -5,6 +5,7 @@ import { useTimerActions, useTimerState } from "../context/TimerContext";
 function TimerController() {
     const { isRunning, canPlay } = useTimerState();
     const { handlePlay: play, handlePause: pause, handleStop: stop } = useTimerActions();
+    const baseButtonClass = "flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:scale-110 disabled:opacity-45 disabled:hover:translate-y-0 disabled:hover:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-200 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950";
 
     const handlePlayPause = () => {
         if (isRunning) {
@@ -25,8 +26,8 @@ function TimerController() {
                 isDisabled={!isRunning && !canPlay}
                 className={
                     isRunning
-                        ? "controller-btn controller-btn--pause"
-                        : "controller-btn controller-btn--play"
+                        ? `${baseButtonClass} bg-linear-to-br from-amber-400 to-amber-500`
+                        : `${baseButtonClass} bg-linear-to-br from-emerald-400 to-emerald-500`
                 }
                 aria-label={isRunning ? "Pause" : "Start"}
             >
@@ -34,7 +35,7 @@ function TimerController() {
             </Button>
             <Button
                 onPress={handleStop}
-                className="controller-btn controller-btn--stop"
+                className={`${baseButtonClass} bg-linear-to-br from-rose-400 to-red-500`}
                 aria-label="Stop"
                 isDisabled={!isRunning && !canPlay}
             >

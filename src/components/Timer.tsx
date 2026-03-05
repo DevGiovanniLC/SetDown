@@ -26,12 +26,14 @@ const Timer = () => {
             shouldForceLeadingZeros
             value={parsedValue}
             onChange={handleChange}
-            className={`timer-display`}
-            style={{ fontVariantNumeric: 'tabular-nums' }}
+            className="border-none bg-transparent outline-none"
             isReadOnly={isRunning}
         >
             <Label />
-            <DateInput className="timer-input-shell">
+            <DateInput
+                className={`rounded-2xl px-3 py-2 font-mono text-5xl font-semibold tracking-tight transition-all duration-300 ${isRunning ? "text-emerald-200" : "text-zinc-100"}`}
+                style={{ textShadow: "0 0 28px rgba(255, 255, 255, 0.06)" }}
+            >
                 {segment => (
                     <span
                         onKeyDown={e => {
@@ -43,7 +45,7 @@ const Timer = () => {
                         <DateSegment
                             segment={segment}
                             className={({ isFocused, isPlaceholder }) =>
-                                `timer-segment ${isFocused ? 'timer-segment--focused' : ''} ${isPlaceholder ? 'timer-segment--placeholder' : ''}`
+                                `rounded-md px-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300/70 ${isFocused ? 'bg-purple-500/20 text-blue-100' : ''} ${isPlaceholder ? 'text-zinc-500' : ''}`
                             }
                         />
                     </span>
