@@ -4,22 +4,18 @@ import { useTimerActions, useTimerState } from "../context/TimerContext";
 
 function TimerController() {
     const { isRunning, canPlay } = useTimerState();
-    const { handlePlay: onPlay, handlePause: onPause, handleStop: onStop } = useTimerActions();
+    const { handlePlay: play, handlePause: pause, handleStop: stop } = useTimerActions();
 
     const handlePlayPause = () => {
-        if (!isRunning && !canPlay) {
-            return;
-        }
-
         if (isRunning) {
-            onPause();
+            pause();
         } else {
-            onPlay();
+            play();
         }
     }
 
     const handleStop = () => {
-        onStop();
+        stop();
     }
 
     return (

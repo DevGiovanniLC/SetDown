@@ -2,16 +2,16 @@ import { ChevronDown } from "lucide-react";
 import { Button, Menu, MenuItem, MenuTrigger, Popover } from "react-aria-components";
 import { useTimerActions, useTimerState } from "../context/TimerContext";
 
+const presets = [
+    { label: '10 min', value: '00:10:00' },
+    { label: '45 min', value: '00:45:00' },
+    { label: '1 hour', value: '01:00:00' },
+    { label: '2 hours', value: '02:00:00' },
+];
+
 function TimerSelector() {
     const { isRunning } = useTimerState();
     const { handleTimerChange } = useTimerActions();
-
-    const presets = [
-        { label: '10 min', value: '00:10:00' },
-        { label: '45 min', value: '00:45:00' },
-        { label: '1 hour', value: '01:00:00' },
-        { label: '2 hours', value: '02:00:00' },
-    ];
 
     return (
         <MenuTrigger>

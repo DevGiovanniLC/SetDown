@@ -7,34 +7,24 @@ import {
     FieldError,
 } from 'react-aria-components';
 import { parseTime } from '@internationalized/date';
-import { useEffect, useState } from 'react';
 import { useTimerActions, useTimerState } from '../context/TimerContext';
 
 const Timer = () => {
-    const { timerValue: value, timerStatus = "idle" } = useTimerState();
+    const { timerValue: value, isRunning } = useTimerState();
     const { handleTimerChange: onChange } = useTimerActions();
-    const [internalValue, setInternalValue] = useState(parseTime('00:00:00'));
-    const isRunning = timerStatus === "running";
+    const parsedValue = fillEmptySegments(parseTime(value));
 
     const handleChange = (newValue: any) => {
-        setInternalValue(fillEmptySegments(newValue));
-        onChange(fillEmptySegments(newValue).toString());
+        const normalizedValue = fillEmptySegments(newValue).toString();
+        onChange(normalizedValue);
     };
-
-    const handleSegmentBlur = () => {
-        setInternalValue((prev) => fillEmptySegments(prev));
-    };
-
-    useEffect(() => {
-        setInternalValue(parseTime(value));
-    }, [value]);
 
     return (
         <TimeField
             aria-label='input-time'
             granularity="second"
             shouldForceLeadingZeros
-            value={internalValue}
+            value={parsedValue}
             onChange={handleChange}
             className={`timer-display`}
             style={{ fontVariantNumeric: 'tabular-nums' }}
@@ -44,7 +34,6 @@ const Timer = () => {
             <DateInput className="timer-input-shell">
                 {segment => (
                     <span
-                        onBlur={handleSegmentBlur}
                         onKeyDown={e => {
                             if (e.key === 'Backspace' || e.key === 'Delete') {
                                 e.preventDefault();
