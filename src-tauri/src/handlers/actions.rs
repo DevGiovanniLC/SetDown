@@ -16,3 +16,8 @@ pub fn hibernate_command() -> Result<(), String> {
     actions::hibernate().map_err(|err| err.to_string())
 }
 
+#[tauri::command]
+pub fn lock_screen_command() -> Result<(), String> {
+    actions::lock_screen().map_err(|err| err.to_string())
+}
+

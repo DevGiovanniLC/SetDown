@@ -13,7 +13,8 @@ macro_rules! generate_handlers {
             timer::set_timer_value_command,
             actions::notify_timer_finished_command,
             actions::power_off_command,
-            actions::hibernate_command
+            actions::hibernate_command,
+            actions::lock_screen_command
         ]
     }};
 }

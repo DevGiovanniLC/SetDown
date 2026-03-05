@@ -24,6 +24,15 @@ pub fn hibernate() -> io::Result<()> {
 	Ok(())
 }
 
+/// Bloquea la sesion actual en Windows.
+#[cfg(target_os = "windows")]
+pub fn lock_screen() -> io::Result<()> {
+	Command::new("rundll32.exe")
+		.args(["user32.dll,LockWorkStation"])
+		.spawn()?;
+	Ok(())
+}
+
 
 
 /// Fallback para plataformas no soportadas.
@@ -38,6 +47,13 @@ pub fn power_off() -> io::Result<()> {
 pub fn hibernate() -> io::Result<()> {
     Command::new("systemctl").arg("hibernate").spawn()?;
     Ok(())
+}
+
+/// Bloquea la sesion actual en Linux.
+#[cfg(target_os = "linux")]
+pub fn lock_screen() -> io::Result<()> {
+	Command::new("loginctl").arg("lock-session").spawn()?;
+	Ok(())
 }
 
 /// Apaga el equipo en macOS.
@@ -58,6 +74,15 @@ pub fn hibernate() -> io::Result<()> {
 	Ok(())
 }
 
+/// Bloquea la sesion actual en macOS.
+#[cfg(target_os = "macos")]
+pub fn lock_screen() -> io::Result<()> {
+	Command::new("/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession")
+		.arg("-suspend")
+		.spawn()?;
+	Ok(())
+}
+
 /// Fallback para plataformas no soportadas.
 #[cfg(not(any(target_os = "windows", target_os = "linux", target_os = "macos")))]
 pub fn power_off() -> io::Result<()> {
@@ -73,5 +98,14 @@ pub fn hibernate() -> io::Result<()> {
 	Err(io::Error::new(
 		io::ErrorKind::Unsupported,
 		"hibernate is not supported on this platform",
+	))
+}
+
+/// Fallback para plataformas no soportadas.
+#[cfg(not(any(target_os = "windows", target_os = "linux", target_os = "macos")))]
+pub fn lock_screen() -> io::Result<()> {
+	Err(io::Error::new(
+		io::ErrorKind::Unsupported,
+		"lock_screen is not supported on this platform",
 	))
 }

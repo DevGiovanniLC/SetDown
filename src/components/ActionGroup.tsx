@@ -1,7 +1,7 @@
-import { Bell, Moon, Power } from "lucide-react";
+import { Bell, Lock, Moon, Power } from "lucide-react";
 import { Radio, RadioGroup } from "react-aria-components";
 
-import { useFinishAction } from "../context/FinishActionContext";
+import { FinishAction, useFinishAction } from "../context/FinishActionContext";
 
 function ActionGroup() {
     const { finishAction, setFinishAction } = useFinishAction();
@@ -10,8 +10,8 @@ function ActionGroup() {
         <RadioGroup
             aria-label="Acción al finalizar"
             value={finishAction}
-            onChange={(value) => setFinishAction(value as "poweroff" | "hibernate" | "notify")}
-            className="flex flex-col items-center gap-2 rounded-xl border border-zinc-700/55 bg-zinc-900/55 py-2 px-2 w-fit"
+            onChange={(value) => setFinishAction(value as FinishAction)}
+            className="flex flex-col items-center gap-3 rounded-xl border border-zinc-700/55 bg-zinc-900/55 py-2 px-2 w-fit"
         >
             <Radio
                 value="poweroff"
@@ -41,6 +41,16 @@ function ActionGroup() {
                 aria-label="Notificación"
             >
                 <Bell className="w-5 h-5" />
+            </Radio>
+
+            <Radio
+                value="lockscreen"
+                className={({ isSelected }) =>
+                    `action-chip ${isSelected ? "action-chip--lock" : "action-chip--idle"}`
+                }
+                aria-label="Bloquear pantalla"
+            >
+                <Lock className="w-5 h-5" />
             </Radio>
         </RadioGroup>
     );

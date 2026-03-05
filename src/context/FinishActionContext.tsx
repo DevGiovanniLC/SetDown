@@ -2,7 +2,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-export type FinishAction = "poweroff" | "hibernate" | "notify";
+export type FinishAction = "poweroff" | "hibernate" | "lockscreen" | "notify";
 
 interface FinishActionContextValue {
     finishAction: FinishAction;
@@ -22,6 +22,9 @@ export function FinishActionProvider({ children }: { children: React.ReactNode }
                     break;
                 case "hibernate":
                     void invoke("hibernate_command");
+                    break;
+                case "lockscreen":
+                    void invoke("lock_screen_command");
                     break;
                 case "notify":
                 default:
