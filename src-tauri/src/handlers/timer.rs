@@ -24,3 +24,5 @@ pub fn start_timer_command(app: tauri::AppHandle, hms: String) {
 pub fn set_timer_value_command(app: tauri::AppHandle, hms: String) {
     timer::sync_timer_value(app, hms);
 }
+
+

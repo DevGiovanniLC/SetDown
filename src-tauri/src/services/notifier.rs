@@ -20,3 +20,12 @@ pub fn check_and_notify(app: &AppHandle, secs: u64) {
             .show();
     }
 }
+
+pub fn notify_timer_finished(app: &AppHandle) {
+    let _ = app
+        .notification()
+        .builder()
+        .title("SetDown")
+        .body("Time's up!")
+        .show();
+}

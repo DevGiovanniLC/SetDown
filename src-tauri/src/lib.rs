@@ -4,7 +4,7 @@ mod services;
 
 use tauri::WindowEvent;
 
-use crate::{config::tryicon::build_tray_icon, handlers::timer::*};
+use crate::config::tryicon::build_tray_icon;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -24,13 +24,7 @@ pub fn run() {
         })
         .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![
-            start_timer_command,
-            pause_timer_command,
-            resume_timer_command,
-            stop_timer_command,
-            set_timer_value_command
-        ])
+        .invoke_handler(generate_handlers!())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
