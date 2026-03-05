@@ -1,73 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
-import Timer, { TimerStatus } from "./components/Timer";
+import Timer from "./components/Timer";
 import TimerController from "./components/TimerController";
-import { invoke } from '@tauri-apps/api/core';
-import { listen } from '@tauri-apps/api/event';
 import ActionGroup, { FinishAction } from "./components/ActionGroup";
 import TimerSelector from "./components/TimerSelector";
 import Titlebar from "./components/Titlebar";
+import { useTimerState } from "./context/TimerContext";
 
 
 function App() {
-  const [timerValue, setTimerValue] = useState("00:00:00");
-  const [timerStatus, setTimerStatus] = useState<TimerStatus>("idle");
+  const { timerStatus } = useTimerState();
   const [finishAction, setFinishAction] = useState<FinishAction>("notify");
-
-  const isRunning = timerStatus === "running";
-  const isPaused = timerStatus === "paused";
-  const canPlay = timerValue !== "00:00:00";
-
-  const handleTimerChange = async (value: string) => {
-    if (isPaused) {
-      await invoke('stop_timer_command');
-    }
-    setTimerValue(value);
-    await invoke('set_timer_value_command', { hms: value });
-  }
-
-  const handlePlay = async () => {
-    if (isPaused) {
-      await invoke('resume_timer_command');
-      return;
-    }
-
-    await invoke('start_timer_command', { hms: timerValue });
-  }
-
-  const handleStop = async () => {
-    await invoke('stop_timer_command');
-  }
-
-  const handlePause = async () => {
-    await invoke('pause_timer_command');
-  }
-
-  useEffect(() => {
-    invoke('set_timer_value_command', { hms: "00:00:00" });
-
-    const unlistenTick = listen('timer_tick', (event) => {
-      return setTimerValue(event.payload as string);
-    });
-
-    const unlistenFinished = listen('timer_finished', () => {
-      setTimerStatus("idle");
-    });
-
-    const unlistenStatus = listen('timer_status', (event) => {
-      setTimerStatus(event.payload as TimerStatus);
-    });
-
-    return () => {
-      unlistenTick.then((f) => f());
-      unlistenFinished.then((f) => f());
-      unlistenStatus.then((f) => f());
-    };
-  }, []);
 
   return (
     <div className="app-shell flex flex-col">
-        <Titlebar />
+      <Titlebar />
       <div className="aurora aurora--one" />
       <div className="aurora aurora--two" />
       <div className="app-card">
@@ -81,27 +28,11 @@ function App() {
 
           <main className="flex gap-6 items-center justify-center flex-col py-8 px-6">
             <div className="flex items-center justify-center ml-8">
-              <Timer
-                value={timerValue}
-                onChange={handleTimerChange}
-                timerStatus={timerStatus}
-              />
-
-              <TimerSelector
-                isRunning={isRunning}
-                handlePresetSelect={handleTimerChange}
-              />
+              <Timer />
+              <TimerSelector />
             </div>
-
-            <TimerController
-              onPlay={handlePlay}
-              onPause={handlePause}
-              onStop={handleStop}
-              canPlay={canPlay}
-              isRunningProp={isRunning}
-            />
+            <TimerController />
           </main>
-
 
           <div className="p-0 ml-4 flex justify-end w-full ">
             <span

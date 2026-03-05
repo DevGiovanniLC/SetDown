@@ -8,18 +8,11 @@ import {
 } from 'react-aria-components';
 import { parseTime } from '@internationalized/date';
 import { useEffect, useState } from 'react';
+import { useTimerActions, useTimerState } from '../context/TimerContext';
 
-export type TimerStatus = "idle" | "running" | "paused";
-
-interface TimerProps {
-    value: string;
-    onChange: (value: string) => void;
-    timerStatus?: TimerStatus;
-}
-
-
-
-const Timer = ({ value, onChange, timerStatus = "idle" }: TimerProps) => {
+const Timer = () => {
+    const { timerValue: value, timerStatus = "idle" } = useTimerState();
+    const { handleTimerChange: onChange } = useTimerActions();
     const [internalValue, setInternalValue] = useState(parseTime('00:00:00'));
     const isRunning = timerStatus === "running";
 

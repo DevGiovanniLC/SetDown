@@ -1,23 +1,16 @@
 import { Button, Toolbar } from "react-aria-components";
 import { Pause, Play, Square } from "lucide-react"
-import { useEffect, useState } from "react";
+import { useTimerActions, useTimerState } from "../context/TimerContext";
 
-interface TimerControllerProps {
-    onPlay: () => void;
-    onPause: () => void;
-    onStop: () => void;
-    canPlay?: boolean;
-    isRunningProp?: boolean;
-}
-
-function TimerController({ onPlay, onPause, onStop, canPlay = true, isRunningProp }: TimerControllerProps) {
-    const [isRunning, setIsRunning] = useState(false);
+function TimerController() {
+    const { isRunning, canPlay } = useTimerState();
+    const { handlePlay: onPlay, handlePause: onPause, handleStop: onStop } = useTimerActions();
 
     const handlePlayPause = () => {
         if (!isRunning && !canPlay) {
             return;
         }
-        setIsRunning((prev) => !prev);
+
         if (isRunning) {
             onPause();
         } else {
@@ -26,21 +19,8 @@ function TimerController({ onPlay, onPause, onStop, canPlay = true, isRunningPro
     }
 
     const handleStop = () => {
-        setIsRunning(false);
         onStop();
     }
-
-    useEffect(() => {
-        if (!canPlay && isRunning) {
-            setIsRunning(false);
-        }
-    }, [canPlay, isRunning]);
-
-    useEffect(() => {
-        if (isRunningProp !== undefined) {
-            setIsRunning(isRunningProp);
-        }
-    }, [isRunningProp]);
 
     return (
         <Toolbar aria-label="Controles del temporizador" className="flex gap-8 justify-center items-center">
