@@ -1,15 +1,12 @@
-import { useState } from "react";
 import "./App.css";
 import Timer from "./components/Timer";
 import TimerController from "./components/TimerController";
-import ActionGroup, { FinishAction } from "./components/ActionGroup";
+import ActionGroup from "./components/ActionGroup";
 import TimerSelector from "./components/TimerSelector";
 import Titlebar from "./components/Titlebar";
 import StatusPill from "./components/StatusPill";
 
-
 function App() {
-  const [finishAction, setFinishAction] = useState<FinishAction>("notify");
 
   return (
     <div className="app-shell flex flex-col">
@@ -19,10 +16,7 @@ function App() {
       <div className="app-card">
         <div className="content-layout">
           <aside className="flex items-center h-full" aria-label="Acciones al finalizar">
-            <ActionGroup
-              finishAction={finishAction}
-              setFinishAction={setFinishAction}
-            />
+            <ActionGroup />
           </aside>
 
           <main className="flex gap-6 items-center justify-center flex-col py-8 px-6">

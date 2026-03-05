@@ -1,20 +1,16 @@
 import { Bell, Moon, Power } from "lucide-react";
 import { Radio, RadioGroup } from "react-aria-components";
 
-export type FinishAction = "poweroff" | "hibernate" | "notify";
+import { useFinishAction } from "../context/FinishActionContext";
 
+function ActionGroup() {
+    const { finishAction, setFinishAction } = useFinishAction();
 
-interface ActionGroupProps {
-    finishAction: FinishAction | null | undefined;
-    setFinishAction: (arg0: FinishAction) => void;
-}
-
-function ActionGroup(props: ActionGroupProps) {
     return (
         <RadioGroup
             aria-label="Acción al finalizar"
-            value={props.finishAction}
-            onChange={value => props.setFinishAction((value as FinishAction))}
+            value={finishAction}
+            onChange={(value) => setFinishAction(value as "poweroff" | "hibernate" | "notify")}
             className="flex flex-col items-center gap-2 rounded-xl border border-zinc-700/55 bg-zinc-900/55 py-2 px-2 w-fit"
         >
             <Radio
