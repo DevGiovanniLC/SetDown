@@ -5,11 +5,10 @@ import TimerController from "./components/TimerController";
 import ActionGroup, { FinishAction } from "./components/ActionGroup";
 import TimerSelector from "./components/TimerSelector";
 import Titlebar from "./components/Titlebar";
-import { useTimerState } from "./context/TimerContext";
+import StatusPill from "./components/StatusPill";
 
 
 function App() {
-  const { timerStatus } = useTimerState();
   const [finishAction, setFinishAction] = useState<FinishAction>("notify");
 
   return (
@@ -35,16 +34,7 @@ function App() {
           </main>
 
           <div className="p-0 ml-4 flex justify-end w-full ">
-            <span
-              className={`status-pill ${timerStatus === "running"
-                ? "status-pill--running"
-                : timerStatus === "paused"
-                  ? "status-pill--paused"
-                  : "status-pill--idle"
-                }`}
-            >
-              {timerStatus === "running" ? "Running" : timerStatus === "paused" ? "Paused" : "Idle"}
-            </span>
+            <StatusPill />
           </div>
 
           <div className="layout-spacer" aria-hidden="true" />
