@@ -21,34 +21,31 @@ function App() {
   const handleTimerChange = async (value: string) => {
     if (isPaused) {
       await invoke('stop_timer_command');
-      setTimerStatus("idle");
     }
     setTimerValue(value);
+    await invoke('set_timer_value_command', { hms: value });
   }
 
   const handlePlay = async () => {
     if (isPaused) {
       await invoke('resume_timer_command');
-      setTimerStatus("running");
       return;
     }
 
     await invoke('start_timer_command', { hms: timerValue });
-    setTimerStatus("running");
   }
 
   const handleStop = async () => {
     await invoke('stop_timer_command');
-    setTimerValue("00:00:00");
-    setTimerStatus("idle");
   }
 
   const handlePause = async () => {
     await invoke('pause_timer_command');
-    setTimerStatus("paused");
   }
 
   useEffect(() => {
+    invoke('set_timer_value_command', { hms: "00:00:00" });
+
     const unlistenTick = listen('timer_tick', (event) => {
       return setTimerValue(event.payload as string);
     });
@@ -57,9 +54,14 @@ function App() {
       setTimerStatus("idle");
     });
 
+    const unlistenStatus = listen('timer_status', (event) => {
+      setTimerStatus(event.payload as TimerStatus);
+    });
+
     return () => {
       unlistenTick.then((f) => f());
       unlistenFinished.then((f) => f());
+      unlistenStatus.then((f) => f());
     };
   }, []);
 
@@ -96,6 +98,7 @@ function App() {
               onPause={handlePause}
               onStop={handleStop}
               canPlay={canPlay}
+              isRunningProp={isRunning}
             />
           </main>
 

@@ -7,10 +7,10 @@ interface TimerControllerProps {
     onPause: () => void;
     onStop: () => void;
     canPlay?: boolean;
-    onRunning?: (value: boolean) => void;
+    isRunningProp?: boolean;
 }
 
-function TimerController({ onPlay, onPause, onStop, canPlay = true, onRunning: isRunningProp }: TimerControllerProps) {
+function TimerController({ onPlay, onPause, onStop, canPlay = true, isRunningProp }: TimerControllerProps) {
     const [isRunning, setIsRunning] = useState(false);
 
     const handlePlayPause = () => {
@@ -31,16 +31,16 @@ function TimerController({ onPlay, onPause, onStop, canPlay = true, onRunning: i
     }
 
     useEffect(() => {
-        if (isRunningProp) {
-            isRunningProp(isRunning);
-        }
-    }, [isRunningProp, isRunning]);
-
-    useEffect(() => {
         if (!canPlay && isRunning) {
             setIsRunning(false);
         }
     }, [canPlay, isRunning]);
+
+    useEffect(() => {
+        if (isRunningProp !== undefined) {
+            setIsRunning(isRunningProp);
+        }
+    }, [isRunningProp]);
 
     return (
         <Toolbar aria-label="Controles del temporizador" className="flex gap-8 justify-center items-center">

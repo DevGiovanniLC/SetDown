@@ -1,4 +1,7 @@
 use crate::services::notifier::{check_and_notify, reset_five_minute_notification};
+use crate::config::tryicon::{
+    set_play_pause_menu_label, set_timer_actions_enabled, set_tray_tooltip,
+};
 use std::{
     sync::{
         atomic::{AtomicU64, Ordering},
@@ -28,6 +31,14 @@ enum TimerStatus {
     Running,
     Paused,
     Stopped,
+}
+
+fn emit_timer_status(app: &AppHandle, status: &str) {
+    let _ = app.emit("timer_status", status);
+}
+
+fn has_non_zero_value(hms: &str) -> bool {
+    parse_hms_to_seconds(hms).is_some_and(|secs| secs > 0)
 }
 
 impl TimerHandle {
@@ -65,6 +76,11 @@ fn seconds_to_hms(secs: u64) -> String {
 
 /// Inicia un timer en background y envía la cuenta atrás al frontend por eventos
 pub fn start_timer(app: AppHandle, hms: String) {
+    set_play_pause_menu_label(true);
+    set_timer_actions_enabled(true);
+    set_tray_tooltip(&app, Some(format!("{hms}")));
+    emit_timer_status(&app, "running");
+
     // Detener el timer previo para evitar hilos duplicados y estados inconsistentes.
     let thread_handle = {
         let mut state = TIMER_STATE.lock().unwrap();
@@ -104,6 +120,7 @@ pub fn start_timer(app: AppHandle, hms: String) {
                 check_and_notify(&app, secs);
 
                 let hms_str = seconds_to_hms(secs);
+                set_tray_tooltip(&app, Some(format!("{hms_str}")));
                 let _ = TauriEmitter::emit(&app, "timer_tick", hms_str);
 
                 next_tick += Duration::from_secs(1);
@@ -133,9 +150,16 @@ pub fn start_timer(app: AppHandle, hms: String) {
             // Solo enviar finalización si terminó naturalmente.
             if secs == 0 && thread_handle.get_status() != TimerStatus::Stopped {
                 let _ = app.emit("timer_tick", "00:00:00");
+                emit_timer_status(&app, "idle");
                 let _ = app.emit("timer_finished", ());
             }
+        } else {
+            emit_timer_status(&app, "idle");
         }
+
+        set_tray_tooltip(&app, None);
+        set_play_pause_menu_label(false);
+        set_timer_actions_enabled(false);
 
         let mut state = TIMER_STATE.lock().unwrap();
         if state.as_ref().map(|handle| handle.id) == Some(thread_handle.id) {
@@ -144,27 +168,87 @@ pub fn start_timer(app: AppHandle, hms: String) {
     });
 }
 
-pub fn pause_timer() {
+pub fn pause_timer(app: AppHandle) {
     let state = TIMER_STATE.lock().unwrap();
     if let Some(handle) = &*state {
         if handle.get_status() == TimerStatus::Running {
             handle.set_status(TimerStatus::Paused);
+            set_tray_tooltip(&app, Some("(Paused)".to_string()));
+            set_play_pause_menu_label(false);
+            set_timer_actions_enabled(true);
+            emit_timer_status(&app, "paused");
         }
     }
 }
 
-pub fn resume_timer() {
+pub fn resume_timer(app: AppHandle) {
     let state = TIMER_STATE.lock().unwrap();
     if let Some(handle) = &*state {
         if handle.get_status() == TimerStatus::Paused {
             handle.set_status(TimerStatus::Running);
+            set_tray_tooltip(&app, Some("(Running)".to_string()));
+            set_play_pause_menu_label(true);
+            set_timer_actions_enabled(true);
+            emit_timer_status(&app, "running");
         }
     }
 }
 
-pub fn stop_timer() {
+pub fn stop_timer(app: AppHandle) {
     let state = TIMER_STATE.lock().unwrap();
     if let Some(handle) = &*state {
         handle.set_status(TimerStatus::Stopped);
+        let _ = app.emit("timer_tick", "00:00:00");
+        set_tray_tooltip(&app, None);
+        set_play_pause_menu_label(false);
+        set_timer_actions_enabled(false);
+        emit_timer_status(&app, "idle");
+    } else {
+        let _ = app.emit("timer_tick", "00:00:00");
+        set_tray_tooltip(&app, None);
+        set_play_pause_menu_label(false);
+        set_timer_actions_enabled(false);
+        emit_timer_status(&app, "idle");
+    }
+}
+
+pub fn toggle_play_pause(app: AppHandle) {
+    let state = TIMER_STATE.lock().unwrap();
+    if let Some(handle) = &*state {
+        match handle.get_status() {
+            TimerStatus::Running => {
+                handle.set_status(TimerStatus::Paused);
+                set_tray_tooltip(&app, Some("(Paused)".to_string()));
+                set_play_pause_menu_label(false);
+                set_timer_actions_enabled(true);
+                emit_timer_status(&app, "paused");
+            }
+            TimerStatus::Paused => {
+                handle.set_status(TimerStatus::Running);
+                set_tray_tooltip(&app, Some("(Running)".to_string()));
+                set_play_pause_menu_label(true);
+                set_timer_actions_enabled(true);
+                emit_timer_status(&app, "running");
+            }
+            TimerStatus::Stopped => {
+                set_play_pause_menu_label(false);
+                set_timer_actions_enabled(false);
+                emit_timer_status(&app, "idle");
+            }
+        }
+    } else {
+        set_play_pause_menu_label(false);
+        set_timer_actions_enabled(false);
+        emit_timer_status(&app, "idle");
+    }
+}
+
+pub fn sync_timer_value(app: AppHandle, hms: String) {
+    let has_value = has_non_zero_value(&hms);
+    set_timer_actions_enabled(has_value);
+
+    if !has_value {
+        set_play_pause_menu_label(false);
+        set_tray_tooltip(&app, None);
     }
 }

@@ -28,7 +28,8 @@ pub fn run() {
             start_timer_command,
             pause_timer_command,
             resume_timer_command,
-            stop_timer_command
+            stop_timer_command,
+            set_timer_value_command
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
