@@ -1,10 +1,10 @@
 import "./App.css";
+import ActionGroup from "./components/ActionGroup";
+import StatusPill from "./components/StatusPill";
 import Timer from "./components/Timer";
 import TimerController from "./components/TimerController";
-import ActionGroup from "./components/ActionGroup";
 import TimerSelector from "./components/TimerSelector";
 import Titlebar from "./components/Titlebar";
-import StatusPill from "./components/StatusPill";
 
 function App() {
 	return (
