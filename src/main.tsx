@@ -5,11 +5,11 @@ import { FinishActionProvider } from "./context/FinishActionContext";
 import { TimerProvider } from "./context/TimerContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <FinishActionProvider>
-      <TimerProvider>
-        <App />
-      </TimerProvider>
-    </FinishActionProvider>
-  </React.StrictMode>,
+	<React.StrictMode>
+		<FinishActionProvider>
+			<TimerProvider>
+				<App />
+			</TimerProvider>
+		</FinishActionProvider>
+	</React.StrictMode>,
 );
