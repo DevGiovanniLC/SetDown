@@ -1,4 +1,3 @@
-use crate::services::notifier::{check_and_notify, reset_five_minute_notification};
 use crate::config::tryicon::{
     set_play_pause_menu_label, set_timer_actions_enabled, set_tray_tooltip,
 };
@@ -97,8 +96,6 @@ pub fn start_timer(app: AppHandle, hms: String) {
         thread_handle
     };
 
-    reset_five_minute_notification();
-
     thread::spawn(move || {
         if let Some(mut secs) = parse_hms_to_seconds(&hms) {
             let mut next_tick = Instant::now();
@@ -116,8 +113,6 @@ pub fn start_timer(app: AppHandle, hms: String) {
                     break;
                 }
                 drop(status);
-
-                check_and_notify(&app, secs);
 
                 let hms_str = seconds_to_hms(secs);
                 set_tray_tooltip(&app, Some(format!("{hms_str}")));
