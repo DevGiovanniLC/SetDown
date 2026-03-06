@@ -40,23 +40,23 @@ function Titlebar() {
 				SetDown
 			</h1>
 
-			<div className="flex items-center justify-center gap-3">
+			<div className="flex items-end gap-1">
 				<button
 					type="button"
-					className="border border-zinc-600 rounded-md py-1 px-2 hover:bg-zinc-700/50 transition-colors duration-300 text-sm"
+					className="w-8 h-8 flex items-center justify-center rounded-xl bg-zinc-900/80 hover:bg-zinc-700/60 transition-colors duration-300 text-lg text-zinc-300"
 					onClick={handleMinimize}
 					aria-label="Minimizar ventana"
 				>
-					—
+					<span style={{ fontSize: "0.5em", lineHeight: 1 }}>—</span>
 				</button>
 
 				<button
 					type="button"
-					className="border border-zinc-600 rounded-md py-0.5 px-2.5 hover:bg-red-900/80 transition-colors duration-300"
+					className="w-8 h-8 flex items-center justify-center rounded-xl bg-zinc-900/80 hover:bg-red-900/80 transition-colors duration-300 text-lg text-zinc-300"
 					onClick={handleClose}
 					aria-label="Cerrar ventana"
 				>
-					×
+					<span style={{ fontSize: "1.1em", lineHeight: 1 }}>×</span>
 				</button>
 			</div>
 		</header>
