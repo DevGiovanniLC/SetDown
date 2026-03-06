@@ -1,6 +1,2 @@
-
-- Agregar acciones en el back (apagar, hibernar, notificar).
 - Agregar que cuando quede 10 segundos si la ventana está minimizada se abra. 
 - cambiar de color la UI cuando queda poco tiempo como 1 minuto y luego 10 segundos.
-- Mini panel en tray: desde el icono, play/pause/stop sin abrir ventana.
-- Que se pueda ver el tiempo al hacer hover al botón tray.
