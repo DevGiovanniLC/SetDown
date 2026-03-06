@@ -164,10 +164,7 @@ pub fn pause_timer(app: AppHandle) {
     if let Some(handle) = &*state {
         if handle.get_status() == TimerStatus::Running {
             handle.set_status(TimerStatus::Paused);
-            set_tray_tooltip(&app, Some("(Paused)".to_string()));
-            set_play_pause_menu_label(false);
-            set_timer_actions_enabled(true);
-            emit_timer_status(&app, "paused");
+            update_timer_ui(&app, TimerStatus::Paused);
         }
     }
 }
@@ -177,29 +174,19 @@ pub fn resume_timer(app: AppHandle) {
     if let Some(handle) = &*state {
         if handle.get_status() == TimerStatus::Paused {
             handle.set_status(TimerStatus::Running);
-            set_tray_tooltip(&app, Some("(Running)".to_string()));
-            set_play_pause_menu_label(true);
-            set_timer_actions_enabled(true);
-            emit_timer_status(&app, "running");
+            update_timer_ui(&app, TimerStatus::Running);
         }
     }
 }
 
 pub fn stop_timer(app: AppHandle) {
     let state = TIMER_STATE.lock().unwrap();
+    let _ = app.emit("timer_tick", "00:00:00");
     if let Some(handle) = &*state {
         handle.set_status(TimerStatus::Stopped);
-        let _ = app.emit("timer_tick", "00:00:00");
-        set_tray_tooltip(&app, None);
-        set_play_pause_menu_label(false);
-        set_timer_actions_enabled(false);
-        emit_timer_status(&app, "idle");
+        update_timer_ui(&app, TimerStatus::Stopped);
     } else {
-        let _ = app.emit("timer_tick", "00:00:00");
-        set_tray_tooltip(&app, None);
-        set_play_pause_menu_label(false);
-        set_timer_actions_enabled(false);
-        emit_timer_status(&app, "idle");
+        update_timer_ui(&app, TimerStatus::Stopped);
     }
 }
 
@@ -209,28 +196,18 @@ pub fn toggle_play_pause(app: AppHandle) {
         match handle.get_status() {
             TimerStatus::Running => {
                 handle.set_status(TimerStatus::Paused);
-                set_tray_tooltip(&app, Some("(Paused)".to_string()));
-                set_play_pause_menu_label(false);
-                set_timer_actions_enabled(true);
-                emit_timer_status(&app, "paused");
+                update_timer_ui(&app, TimerStatus::Paused);
             }
             TimerStatus::Paused => {
                 handle.set_status(TimerStatus::Running);
-                set_tray_tooltip(&app, Some("(Running)".to_string()));
-                set_play_pause_menu_label(true);
-                set_timer_actions_enabled(true);
-                emit_timer_status(&app, "running");
+                update_timer_ui(&app, TimerStatus::Running);
             }
             TimerStatus::Stopped => {
-                set_play_pause_menu_label(false);
-                set_timer_actions_enabled(false);
-                emit_timer_status(&app, "idle");
+                update_timer_ui(&app, TimerStatus::Stopped);
             }
         }
     } else {
-        set_play_pause_menu_label(false);
-        set_timer_actions_enabled(false);
-        emit_timer_status(&app, "idle");
+        update_timer_ui(&app, TimerStatus::Stopped);
     }
 }
 
@@ -248,5 +225,29 @@ pub fn sync_timer_value(app: AppHandle) {
     if !enabled {
         set_play_pause_menu_label(false);
         set_tray_tooltip(&app, None);
+    }
+}
+
+/// Actualiza la UI y emite eventos según el estado del timer
+fn update_timer_ui(app: &AppHandle, status: TimerStatus) {
+    match status {
+        TimerStatus::Running => {
+            set_tray_tooltip(app, Some("(Running)".to_string()));
+            set_play_pause_menu_label(true);
+            set_timer_actions_enabled(true);
+            emit_timer_status(app, "running");
+        }
+        TimerStatus::Paused => {
+            set_tray_tooltip(app, Some("(Paused)".to_string()));
+            set_play_pause_menu_label(false);
+            set_timer_actions_enabled(true);
+            emit_timer_status(app, "paused");
+        }
+        TimerStatus::Stopped => {
+            set_tray_tooltip(app, None);
+            set_play_pause_menu_label(false);
+            set_timer_actions_enabled(false);
+            emit_timer_status(app, "idle");
+        }
     }
 }
