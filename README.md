@@ -4,6 +4,8 @@
 ## Descripción
 SetDown es una aplicación de escritorio multiplataforma para la gestión de temporizadores y tareas, diseñada para ofrecer una experiencia moderna, eficiente y nativa. Permite programar temporizadores y definir acciones automáticas al finalizar, como apagar, hibernar, bloquear pantalla o notificar. Su arquitectura combina un frontend React (Vite) y un backend Rust (Tauri), garantizando velocidad, seguridad y acceso a funcionalidades avanzadas del sistema.
 
+<img width="746" height="364" alt="image" src="https://github.com/user-attachments/assets/1874a60f-1ed8-4e2f-b7ac-5b83170947d0" />
+
 ## Funcionalidades principales
 - **Gestión de temporizadores:** Crea, inicia, pausa y detiene temporizadores personalizados.
 - **Acciones al finalizar:** Elige entre apagar, hibernar, bloquear pantalla o recibir notificación al terminar el temporizador.
