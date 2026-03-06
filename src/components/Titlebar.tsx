@@ -30,7 +30,13 @@ function Titlebar() {
             data-tauri-drag-region
             onMouseDown={handleDragStart}
         >
-            <h1 className="h-full flex items-center justify-center text-center select-none" data-tauri-drag-region>
+            <img
+                src="/icon.png"
+                alt="SetDown Logo"
+                className="h-8 w-8 rounded-xl"
+                data-tauri-drag-region
+            />
+            <h1 className="h-full flex items-center justify-center text-center select-none ml-10 text-sm font-sans font-semibold" data-tauri-drag-region>
                 SetDown
             </h1>
 
