@@ -13,7 +13,7 @@
 		"windows": [
 			{
 				"title": "SetDown",
-				"width": 600,
+				"width": 550,
 				"height": 300,
 				"decorations": false,
 				"resizable": false,

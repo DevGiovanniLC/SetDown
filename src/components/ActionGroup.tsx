@@ -9,7 +9,7 @@ import {
 function ActionGroup() {
 	const { finishAction, setFinishAction } = useFinishAction();
 	const baseChipClass =
-		"h-10 w-10 cursor-pointer rounded-lg border transition-all duration-200 hover:-translate-y-0.5 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-200 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950";
+		"h-8 w-8 cursor-pointer rounded-lg border transition-all duration-200 hover:-translate-y-0.5 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-200 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950";
 	const idleChipClass =
 		"bg-zinc-800/85 border-zinc-700 text-zinc-200 hover:bg-zinc-700";
 
@@ -18,7 +18,7 @@ function ActionGroup() {
 			aria-label="Acción al finalizar"
 			value={finishAction}
 			onChange={(value) => setFinishAction(value as FinishAction)}
-			className="flex flex-col items-center gap-3 rounded-xl border border-zinc-700/55 bg-zinc-900/55 py-2 px-2 w-fit"
+			className="flex flex-col items-center gap-3 rounded-xl border border-zinc-700/55 bg-zinc-900/55 py-2 px-3 w-fit"
 		>
 			<Radio
 				value="notify"
@@ -27,7 +27,7 @@ function ActionGroup() {
 				}
 				aria-label="Notificación"
 			>
-				<Bell className="w-5 h-5" />
+				<Bell className="w-4 h-4" />
 			</Radio>
 
 			<Radio
@@ -37,7 +37,7 @@ function ActionGroup() {
 				}
 				aria-label="Bloquear pantalla"
 			>
-				<Lock className="w-5 h-5" />
+				<Lock className="w-4 h-4" />
 			</Radio>
 
 			<Radio
@@ -47,7 +47,7 @@ function ActionGroup() {
 				}
 				aria-label="Hibernar"
 			>
-				<Moon className="w-5 h-5" />
+				<Moon className="w-4 h-4" />
 			</Radio>
 
 			<Radio
@@ -57,7 +57,7 @@ function ActionGroup() {
 				}
 				aria-label="Apagar"
 			>
-				<Power className="w-5 h-5" />
+				<Power className="w-4 h-4" />
 			</Radio>
 		</RadioGroup>
 	);
