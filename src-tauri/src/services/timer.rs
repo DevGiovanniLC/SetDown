@@ -36,10 +36,6 @@ fn emit_timer_status(app: &AppHandle, status: &str) {
     let _ = app.emit("timer_status", status);
 }
 
-fn has_non_zero_value(hms: &str) -> bool {
-    parse_hms_to_seconds(hms).is_some_and(|secs| secs > 0)
-}
-
 impl TimerHandle {
     fn set_status(&self, status: TimerStatus) {
         let (lock, cvar) = &*self.control;
@@ -238,11 +234,18 @@ pub fn toggle_play_pause(app: AppHandle) {
     }
 }
 
-pub fn sync_timer_value(app: AppHandle, hms: String) {
-    let has_value = has_non_zero_value(&hms);
-    set_timer_actions_enabled(has_value);
+pub fn sync_timer_value(app: AppHandle) {
+    // Solo habilitar botones si el timer está activo (Running o Paused)
+    let state = TIMER_STATE.lock().unwrap();
+    let enabled = if let Some(handle) = &*state {
+        let status = handle.get_status();
+        status == TimerStatus::Running || status == TimerStatus::Paused
+    } else {
+        false
+    };
+    set_timer_actions_enabled(enabled);
 
-    if !has_value {
+    if !enabled {
         set_play_pause_menu_label(false);
         set_tray_tooltip(&app, None);
     }

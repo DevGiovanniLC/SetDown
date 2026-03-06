@@ -1,7 +1,7 @@
 use std::sync::OnceLock;
 use tauri::{
     menu::{MenuBuilder, MenuItemBuilder},
-    tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
+    tray::{MouseButton, TrayIconBuilder, TrayIconEvent},
     Manager,
 };
 
@@ -19,17 +19,6 @@ const PAUSE_LABEL: &str = "Pause";
 static BASE_TOOLTIP: OnceLock<String> = OnceLock::new();
 static PLAY_PAUSE_MENU_ITEM: OnceLock<tauri::menu::MenuItem<tauri::Wry>> = OnceLock::new();
 static STOP_MENU_ITEM: OnceLock<tauri::menu::MenuItem<tauri::Wry>> = OnceLock::new();
-
-fn build_app_tooltip() -> String {
-    DEFAULT_APP_NAME.to_string()
-}
-
-fn get_base_tooltip() -> String {
-    BASE_TOOLTIP
-        .get()
-        .cloned()
-        .unwrap_or_else(|| DEFAULT_APP_NAME.to_string())
-}
 
 pub fn set_tray_tooltip(app: &tauri::AppHandle, suffix: Option<String>) {
     let tooltip = match suffix {
@@ -68,20 +57,6 @@ pub fn set_timer_actions_enabled(enabled: bool) {
     }
 }
 
-fn restore_main_window(app: &tauri::AppHandle) {
-    if let Some(window) = app.get_webview_window(MAIN_WINDOW_ID) {
-        if let Err(err) = window.unminimize() {
-            eprintln!("[tray] failed to unminimize main window: {err}");
-        }
-        if let Err(err) = window.show() {
-            eprintln!("[tray] failed to show main window: {err}");
-        }
-        if let Err(err) = window.set_focus() {
-            eprintln!("[tray] failed to focus main window: {err}");
-        }
-    }
-}
-
 pub fn build_tray_icon(app: &mut tauri::App) -> tauri::Result<()> {
     let play_pause_item = MenuItemBuilder::with_id(PLAY_PAUSE_MENU_ID, PLAY_LABEL).build(app)?;
     let stop_item = MenuItemBuilder::with_id(STOP_MENU_ID, "Stop").build(app)?;
@@ -91,8 +66,8 @@ pub fn build_tray_icon(app: &mut tauri::App) -> tauri::Result<()> {
         .build()?;
     let tooltip = build_app_tooltip();
     let _ = BASE_TOOLTIP.set(tooltip.clone());
-    let _ = PLAY_PAUSE_MENU_ITEM.set(play_pause_item.clone());
-    let _ = STOP_MENU_ITEM.set(stop_item.clone());
+    let _ = PLAY_PAUSE_MENU_ITEM.set(play_pause_item);
+    let _ = STOP_MENU_ITEM.set(stop_item);
     set_timer_actions_enabled(false);
 
     let Some(icon) = app.default_window_icon().cloned() else {
@@ -111,17 +86,60 @@ pub fn build_tray_icon(app: &mut tauri::App) -> tauri::Result<()> {
             _ => {}
         })
         .on_tray_icon_event(|tray, event| {
-            if let TrayIconEvent::Click {
+            if let TrayIconEvent::DoubleClick {
                 button: MouseButton::Left,
-                button_state: MouseButtonState::Up,
                 ..
             } = event
             {
                 let app = tray.app_handle();
-                restore_main_window(&app);
+                toggle_main_window(&app);
             }
         })
         .build(app)?;
 
     Ok(())
+}
+
+fn toggle_main_window(app: &tauri::AppHandle) {
+    if let Some(window) = app.get_webview_window(MAIN_WINDOW_ID) {
+        match window.is_minimized() {
+            Ok(true) => {
+                // Si está minimizado, restaurar
+                restore_main_window(&app);
+            }
+            Ok(false) => {
+                // Si no está minimizado, minimizar
+                let _ = window.minimize();
+            }
+            Err(_) => {
+                // Si hay error, restaurar por defecto
+                restore_main_window(&app);
+            }
+        }
+    }
+}
+
+fn restore_main_window(app: &tauri::AppHandle) {
+    if let Some(window) = app.get_webview_window(MAIN_WINDOW_ID) {
+        if let Err(err) = window.unminimize() {
+            eprintln!("[tray] failed to unminimize main window: {err}");
+        }
+        if let Err(err) = window.show() {
+            eprintln!("[tray] failed to show main window: {err}");
+        }
+        if let Err(err) = window.set_focus() {
+            eprintln!("[tray] failed to focus main window: {err}");
+        }
+    }
+}
+
+fn build_app_tooltip() -> String {
+    DEFAULT_APP_NAME.to_string()
+}
+
+fn get_base_tooltip() -> String {
+    BASE_TOOLTIP
+        .get()
+        .cloned()
+        .unwrap_or_else(|| DEFAULT_APP_NAME.to_string())
 }
