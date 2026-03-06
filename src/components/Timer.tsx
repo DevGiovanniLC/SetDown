@@ -10,7 +10,7 @@ import {
 import { useTimerActions, useTimerState } from "../context/TimerContext";
 
 const Timer = () => {
-	const { timerValue: value, isRunning } = useTimerState();
+	const { timerValue: value, isRunning, isPaused, canPlay } = useTimerState();
 	const { handleTimerChange: onChange } = useTimerActions();
 	const parsedValue = fillEmptySegments(parseTime(value));
 
@@ -32,7 +32,7 @@ const Timer = () => {
 		>
 			<Label />
 			<DateInput
-				className={`rounded-2xl px-3 py-2 font-mono text-5xl font-semibold tracking-tight transition-all duration-300 ${isRunning ? "text-emerald-200" : "text-zinc-100"}`}
+				className={`rounded-2xl px-3 py-2 font-mono text-5xl font-semibold tracking-tight transition-all duration-400  ${isRunning ? "text-emerald-50" : isPaused ? "text-yellow-50" : canPlay ? "text-zinc-50" : "text-zinc-200"}`}
 				style={{ textShadow: "0 0 28px rgba(255, 255, 255, 0.06)" }}
 			>
 				{(segment) => (
