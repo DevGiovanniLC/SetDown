@@ -15,25 +15,6 @@ function ActionGroup() {
             onChange={(value) => setFinishAction(value as FinishAction)}
             className="flex flex-col items-center gap-3 rounded-xl border border-zinc-700/55 bg-zinc-900/55 py-2 px-2 w-fit"
         >
-            <Radio
-                value="poweroff"
-                className={({ isSelected }) =>
-                    `${baseChipClass} ${isSelected ? "border-rose-300 bg-rose-600 text-white shadow-[0_0_20px_rgba(244,63,94,0.35)]" : idleChipClass}`
-                }
-                aria-label="Apagar"
-            >
-                <Power className="w-5 h-5" />
-            </Radio>
-
-            <Radio
-                value="hibernate"
-                className={({ isSelected }) =>
-                    `${baseChipClass} ${isSelected ? "border-indigo-300 bg-indigo-600 text-white shadow-[0_0_20px_rgba(99,102,241,0.35)]" : idleChipClass}`
-                }
-                aria-label="Hibernar"
-            >
-                <Moon className="w-5 h-5" />
-            </Radio>
 
             <Radio
                 value="notify"
@@ -54,6 +35,27 @@ function ActionGroup() {
             >
                 <Lock className="w-5 h-5" />
             </Radio>
+
+            <Radio
+                value="hibernate"
+                className={({ isSelected }) =>
+                    `${baseChipClass} ${isSelected ? "border-indigo-300 bg-indigo-600 text-white shadow-[0_0_20px_rgba(99,102,241,0.35)]" : idleChipClass}`
+                }
+                aria-label="Hibernar"
+            >
+                <Moon className="w-5 h-5" />
+            </Radio>
+
+            <Radio
+                value="poweroff"
+                className={({ isSelected }) =>
+                    `${baseChipClass} ${isSelected ? "border-rose-300 bg-rose-600 text-white shadow-[0_0_20px_rgba(244,63,94,0.35)]" : idleChipClass}`
+                }
+                aria-label="Apagar"
+            >
+                <Power className="w-5 h-5" />
+            </Radio>
+
         </RadioGroup>
     );
 }

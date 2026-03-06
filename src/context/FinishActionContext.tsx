@@ -12,7 +12,21 @@ interface FinishActionContextValue {
 const FinishActionContext = createContext<FinishActionContextValue | undefined>(undefined);
 
 export function FinishActionProvider({ children }: { children: React.ReactNode }) {
-    const [finishAction, setFinishAction] = useState<FinishAction>("notify");
+    // Leer la última acción guardada en localStorage
+    const getInitialAction = (): FinishAction => {
+        const stored = localStorage.getItem("finishAction");
+        if (stored === "poweroff" || stored === "hibernate" || stored === "lockscreen" || stored === "notify") {
+            return stored as FinishAction;
+        }
+        return "notify";
+    };
+    const [finishAction, setFinishActionState] = useState<FinishAction>(getInitialAction);
+
+    // Guardar en localStorage cada vez que se cambie
+    const setFinishAction = (action: FinishAction) => {
+        setFinishActionState(action);
+        localStorage.setItem("finishAction", action);
+    };
 
     useEffect(() => {
         const unlistenFinished = listen("timer_finished", () => {
