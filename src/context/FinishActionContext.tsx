@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export type FinishAction = "poweroff" | "hibernate" | "lockscreen" | "notify";
 
@@ -41,8 +41,9 @@ export function FinishActionProvider({ children }: { children: React.ReactNode }
                     void invoke("lock_screen_command");
                     break;
                 case "notify":
-                default:
                     void invoke("notify_timer_finished_command");
+                    break;
+                default:
                     break;
             }
         });
@@ -52,13 +53,10 @@ export function FinishActionProvider({ children }: { children: React.ReactNode }
         };
     }, [finishAction]);
 
-    const value = useMemo(
-        () => ({
-            finishAction,
-            setFinishAction,
-        }),
-        [finishAction],
-    );
+    const value = {
+        finishAction,
+        setFinishAction,
+    }
 
     return <FinishActionContext.Provider value={value}>{children}</FinishActionContext.Provider>;
 }

@@ -4,15 +4,7 @@ function Titlebar() {
     const appWindow = getCurrentWindow();
 
     const handleDragStart = async (event: React.MouseEvent<HTMLElement>) => {
-        if (event.button !== 0) {
-            return;
-        }
-
-        const target = event.target as HTMLElement;
-        if (target.closest("button")) {
-            return;
-        }
-
+        if (event.button !== 0 || (event.target as HTMLElement).closest("button")) return;
         await appWindow.startDragging();
     };
 
@@ -25,6 +17,7 @@ function Titlebar() {
     };
 
     return (
+        // biome-ignore lint/a11y/noStaticElementInteractions: <Tiene que ser clicable para poder arrastrar la ventana, pero no es un botón ni nada interactivo>
         <header
             className="flex items-center justify-between bg-zinc-950 w-full px-3 py-2 z-20"
             data-tauri-drag-region

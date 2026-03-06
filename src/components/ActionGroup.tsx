@@ -1,7 +1,7 @@
 import { Bell, Lock, Moon, Power } from "lucide-react";
 import { Radio, RadioGroup } from "react-aria-components";
 
-import { FinishAction, useFinishAction } from "../context/FinishActionContext";
+import { type FinishAction, useFinishAction } from "../context/FinishActionContext";
 
 function ActionGroup() {
     const { finishAction, setFinishAction } = useFinishAction();
