@@ -1,5 +1,5 @@
-import { Button, Toolbar } from "react-aria-components";
 import { Pause, Play, Square } from "lucide-react";
+import { Button, Toolbar } from "react-aria-components";
 import { useTimerActions, useTimerState } from "../context/TimerContext";
 
 function TimerController() {
