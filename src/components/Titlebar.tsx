@@ -21,9 +21,9 @@ function Titlebar() {
 	};
 
 	return (
-		// biome-ignore lint/a11y/noStaticElementInteractions: <Tiene que ser clicable para poder arrastrar la ventana, pero no es un botón ni nada interactivo>
 		<header
-			className="flex items-center justify-between bg-zinc-950 w-full px-3 py-2 z-20"
+			role="toolbar"
+			className="flex items-center justify-between w-full z-20 bg-zinc-950/10"
 			data-tauri-drag-region
 			onMouseDown={handleDragStart}
 		>
@@ -40,10 +40,10 @@ function Titlebar() {
 				SetDown
 			</h1>
 
-			<div className="flex items-end gap-1">
+			<div className="flex items-end">
 				<button
 					type="button"
-					className="w-8 h-8 flex items-center justify-center rounded-xl bg-zinc-900/80 hover:bg-zinc-700/60 transition-colors duration-300 text-lg text-zinc-300"
+					className="w-10 h-10 flex items-center justify-center  hover:text-zinc-100 transition-colors duration-300 text-lg text-zinc-400"
 					onClick={handleMinimize}
 					aria-label="Minimizar ventana"
 				>
@@ -52,7 +52,7 @@ function Titlebar() {
 
 				<button
 					type="button"
-					className="w-8 h-8 flex items-center justify-center rounded-xl bg-zinc-900/80 hover:bg-red-900/80 transition-colors duration-300 text-lg text-zinc-300"
+					className="w-9 h-9 mb-0.5 flex items-center justify-center  hover:text-red-500/80 transition-colors duration-300 text-lg text-zinc-400"
 					onClick={handleClose}
 					aria-label="Cerrar ventana"
 				>
