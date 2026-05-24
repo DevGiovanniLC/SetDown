@@ -10,7 +10,7 @@ function TimerController() {
 		handleStop: stop,
 	} = useTimerActions();
 	const baseButtonClass =
-		"flex h-15 w-15 items-center justify-center rounded-full shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:scale-110 disabled:opacity-45 disabled:hover:translate-y-0 disabled:hover:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-200 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950";
+		"bg-purple-500/20 border-blue-300/70 border flex h-15 w-15 items-center justify-center rounded-full transition-all duration-200 hover:-translate-y-0.5 hover:scale-110 disabled:opacity-45 disabled:hover:translate-y-0 disabled:hover:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-200 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950";
 
 	const handlePlayPause = () => {
 		if (isRunning) {
@@ -34,8 +34,8 @@ function TimerController() {
 				isDisabled={!isRunning && !canPlay}
 				className={
 					isRunning
-						? `${baseButtonClass} bg-purple-500/20 border-blue-300/70 border`
-						: `${baseButtonClass} bg-purple-500/20 border-blue-300/70  border`
+						? `${baseButtonClass} hover:shadow-[0_0_20px_rgba(255,195,94,0.40)]`
+						: `${baseButtonClass} hover:shadow-[0_0_20px_rgba(0,255,43,0.40)]`
 				}
 				aria-label={isRunning ? "Pause" : "Start"}
 			>
@@ -47,7 +47,7 @@ function TimerController() {
 			</Button>
 			<Button
 				onPress={handleStop}
-				className={`${baseButtonClass} bg-purple-500/20 border-blue-300/70 border`}
+				className={`${baseButtonClass} hover:shadow-[0_0_20px_rgba(244,63,94,0.40)]`}
 				aria-label="Stop"
 				isDisabled={!isRunning && !canPlay}
 			>

@@ -9,9 +9,7 @@ import {
 function ActionGroup() {
 	const { finishAction, setFinishAction } = useFinishAction();
 	const baseChipClass =
-		"h-8 w-8 cursor-pointer rounded-md border transition-all duration-200 hover:-translate-y-0.5 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-200 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950";
-	const idleChipClass =
-		"border-blue-300/70 bg-purple-500/20 hover:bg-zinc-700";
+		"border-blue-300/70 bg-purple-500/20 h-8 w-8 cursor-pointer rounded-md border transition-all duration-200 hover:-translate-y-0.5 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-200 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950";
 
 	return (
 		<RadioGroup
@@ -23,7 +21,7 @@ function ActionGroup() {
 			<Radio
 				value="notify"
 				className={({ isSelected }) =>
-					`${baseChipClass} ${isSelected ? "border-amber-200 text-amber-500 shadow-[0_0_20px_rgba(251,191,36,0.35)]" : idleChipClass}`
+					`${baseChipClass} ${isSelected && "border-amber-200 text-amber-500 shadow-[0_0_20px_rgba(251,191,36,0.35)]"} hover:shadow-amber-500/50`
 				}
 				aria-label="Notificación"
 			>
@@ -33,7 +31,7 @@ function ActionGroup() {
 			<Radio
 				value="lockscreen"
 				className={({ isSelected }) =>
-					`${baseChipClass} ${isSelected ? "border-sky-300 text-sky-500 shadow-[0_0_20px_rgba(2,132,199,0.35)]" : idleChipClass}`
+					`${baseChipClass} ${isSelected && "border-sky-300 text-sky-500 shadow-[0_0_20px_rgba(2,132,199,0.35)]"} hover:shadow-sky-500/50	`
 				}
 				aria-label="Bloquear pantalla"
 			>
@@ -43,7 +41,7 @@ function ActionGroup() {
 			<Radio
 				value="hibernate"
 				className={({ isSelected }) =>
-					`${baseChipClass} ${isSelected ? "border-indigo-300 text-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.35)]" : idleChipClass}`
+					`${baseChipClass} ${isSelected && "border-indigo-300 text-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.35)]"} hover:shadow-indigo-500/50`
 				}
 				aria-label="Hibernar"
 			>
@@ -53,7 +51,7 @@ function ActionGroup() {
 			<Radio
 				value="poweroff"
 				className={({ isSelected }) =>
-					`${baseChipClass} ${isSelected ? "border-rose-300 text-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.35)]" : idleChipClass}`
+					`${baseChipClass} ${isSelected && "border-rose-300 text-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.35)]"} hover:shadow-rose-500/50`
 				}
 				aria-label="Apagar"
 			>
