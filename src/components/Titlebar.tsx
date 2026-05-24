@@ -30,7 +30,7 @@ function Titlebar() {
 			<img
 				src="/icon.png"
 				alt="SetDown Logo"
-				className="h-8 w-8 rounded-xl"
+				className="h-8 w-8 rounded-xl ml-2"
 				data-tauri-drag-region
 			/>
 			<h1
