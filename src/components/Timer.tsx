@@ -39,8 +39,8 @@ const Timer = () => {
 					<span key={segment.type}>
 						<DateSegment
 							segment={segment}
-							className={({ isFocused, isPlaceholder }) =>
-								`rounded-md px-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300/70 ${isFocused ? "bg-purple-500/20 text-blue-100" : ""} ${isPlaceholder ? "text-zinc-500" : ""}`
+							className={({ isFocused }) =>
+								`rounded-md p-1 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300/70 ${isFocused ? "bg-purple-500/20 text-blue-100" : ""} `
 							}
 						/>
 					</span>
