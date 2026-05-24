@@ -1,6 +1,5 @@
 import "./App.css";
 import ActionGroup from "./components/ActionGroup";
-import StatusPill from "./components/StatusPill";
 import Timer from "./components/Timer";
 import TimerController from "./components/TimerController";
 import TimerSelector from "./components/TimerSelector";
@@ -51,11 +50,6 @@ function App() {
 						</div>
 						<TimerController />
 					</main>
-
-					<div className="ml-4 flex w-full justify-end p-0">
-						<StatusPill />
-					</div>
-
 					<div className="w-18.5" aria-hidden="true" />
 				</div>
 			</div>
