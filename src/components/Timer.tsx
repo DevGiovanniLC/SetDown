@@ -2,9 +2,7 @@ import { parseTime, type Time } from "@internationalized/date";
 import {
 	DateInput,
 	DateSegment,
-	FieldError,
 	Label,
-	Text,
 	TimeField,
 } from "react-aria-components";
 import { useTimerActions, useTimerState } from "../context/TimerContext";
@@ -32,7 +30,7 @@ const Timer = () => {
 		>
 			<Label />
 			<DateInput
-				className={`rounded-2xl px-3 py-2 font-mono text-5xl font-semibold tracking-tight transition-all duration-400  ${isRunning ? "text-emerald-50" : isPaused ? "text-yellow-50" : canPlay ? "text-zinc-50" : "text-zinc-200"}`}
+				className={`rounded-2xl px-3 py-2 font-[aria] text-5xl font-semibold tracking-tight transition-all duration-400  ${isRunning ? "text-emerald-100" : isPaused ? "text-yellow-100" : canPlay ? "text-zinc-50" : "text-zinc-200"}`}
 				style={{ textShadow: "0 0 28px rgba(255, 255, 255, 0.06)" }}
 			>
 				{(segment) => (
@@ -40,14 +38,12 @@ const Timer = () => {
 						<DateSegment
 							segment={segment}
 							className={({ isFocused }) =>
-								`rounded-md p-1 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300/70 ${isFocused ? "bg-purple-500/20 text-blue-100" : ""} `
+								`rounded-md px-1.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300/70 ${isFocused ? "bg-purple-500/20 text-blue-100" : ""} `
 							}
 						/>
 					</span>
 				)}
 			</DateInput>
-			<Text slot="description" />
-			<FieldError />
 		</TimeField>
 	);
 };
