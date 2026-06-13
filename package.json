@@ -6,6 +6,7 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
+		"build:windows": "tauri build --target x86_64-pc-windows-msvc",
 		"preview": "vite preview",
 		"tauri": "tauri",
 		"lint": "npx biome lint --fix",
